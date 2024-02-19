@@ -19,7 +19,7 @@
 
 render_presentation <- function(outdir, name, open_html = TRUE, save_as_pdf = FALSE, ...){
   if(!dir.exists(outdir)) dir.create(outdir)
-  inputdir <- system.file(file.path("qmd", name), package = "CSACSM24")
+  inputdir <- system.file(file.path("qmd", name), package = "presentationsR")
   file.copy(from = inputdir, to = outdir, recursive = TRUE)
   qmd_f <- list.files(outdir, pattern = ".qmd$", full.names = TRUE, recursive = TRUE)
   quarto::quarto_render(input = qmd_f, ...)
