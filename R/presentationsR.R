@@ -24,6 +24,7 @@
 #' @importFrom read.gt3x read.gt3x
 #' @importFrom reticulate py_module_available import `%as%`
 #' @importFrom robCompositions pivotCoord
+#' @importFrom sjmisc to_dummy
 #' @importFrom utils browseURL
 #' @name CSACSM24
 

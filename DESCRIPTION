@@ -19,10 +19,13 @@ Imports:
   quarto,
   read.gt3x,
   reticulate,
-  robCompositions
+  robCompositions,
+  sjmisc
 Remotes:
   bhelsel/agcounts,
   bhelsel/MoveKC
+Suggests:
+  cronR
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true

@@ -284,8 +284,8 @@ A function with a main purpose of calling secondary functions or code to ease im
 
 ```{r get_counts}
 #| echo: TRUE
-agcounts::get_counts(gt3xFile, epoch = 30, lfe_select = TRUE)
-agcounts::get_counts(gt3xFile, epoch = 60, lfe_select = FALSE)
+agcounts::get_counts(gt3xFile, epoch = 30, lfe_select = TRUE, parser = "read.gt3x")
+agcounts::get_counts(gt3xFile, epoch = 60, lfe_select = FALSE, parser = "read.gt3x")
 ```
 
 ::: notes
