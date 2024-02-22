@@ -99,6 +99,7 @@ Downloading R is necessary to run the code in this presentation. I recommend RSt
 #| echo: TRUE
 #| eval: FALSE
 # Install the presentationsR package
+options(timeout = 999999) # Increase to avoid timeout issues
 devtools::install_github("bhelsel/presentationsR")
 
 ```
