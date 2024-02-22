@@ -20,8 +20,8 @@ Imports:
   robCompositions,
   sjmisc
 Remotes:
-  - bhelsel/agcounts
-  - bhelsel/MoveKC
+  bhelsel/agcounts,
+  bhelsel/MoveKC
 Suggests:
   cronR
 License: file LICENSE
