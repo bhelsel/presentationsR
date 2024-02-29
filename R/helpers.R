@@ -20,12 +20,15 @@
 render_presentation <- function(outdir, name, open_html = TRUE, save_as_pdf = FALSE, ...){
   if(!dir.exists(outdir)) dir.create(outdir)
   inputdir <- system.file(file.path("qmd", name), package = "presentationsR")
-  file.copy(from = inputdir, to = outdir, recursive = TRUE)
-  qmd_f <- list.files(outdir, pattern = ".qmd$", full.names = TRUE, recursive = TRUE)
+  
+  qmd_f <- list.files(inputdir, pattern = ".qmd$", full.names = TRUE)
   quarto::quarto_render(input = qmd_f, ...)
   html_f <- gsub(".qmd$", ".html", qmd_f)
-  if(open_html) utils::browseURL(html_f)
-  if(save_as_pdf) pagedown::chrome_print(input = html_f, output = gsub(".html$", ".pdf", html_f))
+  out_html_f <- file.path(outdir, basename(html_f))
+  file.copy(html_f, out_html_f)
+  invisible(file.remove(html_f))
+  if(open_html) utils::browseURL(out_html_f)
+  if(save_as_pdf) pagedown::chrome_print(input = out_html_f, output = gsub(".html$", ".pdf", out_html_f))
 }
 
 
