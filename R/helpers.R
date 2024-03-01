@@ -19,7 +19,7 @@ render_presentation <- function(name, ...){
   qmd_f <- list.files(inputdir, pattern = ".qmd$", full.names = TRUE)
   quarto::quarto_render(input = qmd_f, ...)
   html_f <- gsub(".qmd$", ".html", qmd_f)
-  if(open_html) utils::browseURL(html_f)
+  utils::browseURL(html_f)
   invisible(file.remove(html_f))
 }
 
