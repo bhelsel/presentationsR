@@ -1,3 +1,6 @@
+#' @keywords internal
+"_PACKAGE"
+
 # Copyright © 2024 University of Kansas. All rights reserved.
 
 #' @title CSACSM24: Presentation for the 2024 Central States ACSM Regional Meeting
@@ -12,7 +15,6 @@
 #'
 #' \code{\link{render_presentation}}
 #'
-#' @docType package
 #' @import agcounts
 #' @importFrom compositions acomp clo gsi.buildilrBase ilr
 #' @importFrom dplyr group_by summarise_at mutate vars rename ungroup

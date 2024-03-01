@@ -4,16 +4,10 @@
 \alias{render_presentation}
 \title{render_presentation}
 \usage{
-render_presentation(outdir, name, open_html = TRUE, save_as_pdf = FALSE, ...)
+render_presentation(name, ...)
 }
 \arguments{
-\item{outdir}{Output directory to copy and render the Quarto presentation files}
-
 \item{name}{Name of the presentation or workshop to render}
-
-\item{open_html}{Open the HTML version of the presentation}
-
-\item{save_as_pdf}{Save the HTML version of the presentation as a pdf document}
 
 \item{...}{Additional parameters passed to quarto::quarto_render}
 }

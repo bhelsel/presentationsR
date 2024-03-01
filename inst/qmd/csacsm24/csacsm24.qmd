@@ -34,21 +34,7 @@ options(repos = "https://cran.r-project.org")
 :::
 
 ::: notes
-
-R is a functional programming language for statistical computing and graphics. A
-functional programming language means that you can extend the functionality of
-the programming language by writing functions designed to accomplish specific
-tasks. RStudio is an integrated development environment for R. However, it is
-not the only way to interact with R on your computer. For example, some users
-prefer to interact with R in a separate R console or integrated development
-environment like VS Code. R can also be run from your terminal. Common functions
-are often assembled into a package for repeated use and there are \> 20,000
-packages on CRAN that extend the utility of R with even more packages available
-on GitHub. This presentation will introduce you to open-source R software for
-wearable device data processing and analysis. The presentation was assembled in
-Quarto which is an open source technical publishing system to create articles,
-websites, blogs, books, and presentations.
-
+R is a functional programming language for statistical computing and graphics. A functional programming language means that you can extend the functionality of the programming language by writing functions designed to accomplish specific tasks. RStudio is an integrated development environment for R. However, it is not the only way to interact with R on your computer. For example, some users prefer to interact with R in a separate R console or integrated development environment like VS Code. R can also be run from your terminal. Common functions are often assembled into a package for repeated use and there are \> 20,000 packages on CRAN that extend the utility of R with even more packages available on GitHub. This presentation will introduce you to open-source R software for wearable device data processing and analysis. The presentation was assembled in Quarto which is an open source technical publishing system to create articles, websites, blogs, books, and presentations.
 :::
 
 ## Why R?
@@ -63,24 +49,7 @@ websites, blogs, books, and presentations.
 ![](images/R.png){.nostretch width="10%" fig-align="right"}
 
 ::: notes
-
-There are many open-source physical activity packages available on CRAN or
-GitHub. Some commonly used packages include `read.gt3x` for reading binary data,
-`PhysicalActivity` for wear time processing, and `GGIR` for analyzing raw
-acceleration sleep and physical activity data. The `compositions` package offers
-an easy way to analyze movement data as a composition and I've been working on
-developing `agcounts` and `iFitbit`. The `agcounts` package allows users to
-calculate ActiGraph counts from raw acceleration data and iFitbit interacts with
-the Fitbit API to extract data from research participants. Open-source code from
-these packages are free to view on GitHub and I've found that it is a great way
-to learn. Issues on GitHub are like discussion forums where users can discuss
-problems with the code and request new features. A GitHub pull request allows
-users to suggest, discuss, and review changes to the code and version control
-provides a method for tracking the changes over time. Additionally, R can be
-extended to Python packages for wearable device data processing and analysis
-through a Python-R interface called reticulate. R also allows for easy
-customization of scripts or packages to meet the needs of a research study.
-
+There are many open-source physical activity packages available on CRAN or GitHub. Some commonly used packages include `read.gt3x` for reading binary data, `PhysicalActivity` for wear time processing, and `GGIR` for analyzing raw acceleration sleep and physical activity data. The `compositions` package offers an easy way to analyze movement data as a composition and I've been working on developing `agcounts` and `iFitbit`. The `agcounts` package allows users to calculate ActiGraph counts from raw acceleration data and iFitbit interacts with the Fitbit API to extract data from research participants. Open-source code from these packages are free to view on GitHub and I've found that it is a great way to learn. Issues on GitHub are like discussion forums where users can discuss problems with the code and request new features. A GitHub pull request allows users to suggest, discuss, and review changes to the code and version control provides a method for tracking the changes over time. Additionally, R can be extended to Python packages for wearable device data processing and analysis through a Python-R interface called reticulate. R also allows for easy customization of scripts or packages to meet the needs of a research study.
 :::
 
 ## Objectives
@@ -101,12 +70,7 @@ The purpose of today's presentation is to:
 :::
 
 ::: notes
-The purpose of today's presentation is to introduce you to some of these
-commonly used R packages for physical activity research. It is not designed to
-be a comprehensive review of the packages, but will provide you with some
-examples and code to help get you started. I will focus on 2 brands of wearable
-devices that we frequently use in our research studies at the University of
-Kansas which include the ActiGraph and Fitbit.
+The purpose of today's presentation is to introduce you to some of these commonly used R packages for physical activity research. It is not designed to be a comprehensive review of the packages, but will provide you with some examples and code to help get you started. I will focus on 2 brands of wearable devices that we frequently use in our research studies at the University of Kansas which include the ActiGraph and Fitbit.
 :::
 
 ## Getting Started
@@ -123,13 +87,7 @@ install.packages("devtools")
 ```
 
 ::: notes
-Downloading R is necessary to run the code in this presentation. I recommend
-RStudio for your integrated development environment, but you may choose to
-explore other ways to interact with the R programming language. Once you have R
-and RStudio downloaded, you can install the `devtools` package from CRAN by
-running the `install.packages("devtools")` command in your R console. This
-package can be used to install R packages from GitHub and is helpful if you
-decide to build your own R package.
+Downloading R is necessary to run the code in this presentation. I recommend RStudio for your integrated development environment, but you may choose to explore other ways to interact with the R programming language. Once you have R and RStudio downloaded, you can install the `devtools` package from CRAN by running the `install.packages("devtools")` command in your R console. This package can be used to install R packages from GitHub and is helpful if you decide to build your own R package.
 :::
 
 ## Download the Presentation
@@ -152,14 +110,7 @@ presentationsR::render_presentation(outdir = "/full/path/to/folder", name = "csa
 ![](images/github.png)
 
 ::: notes
-The presentation can be downloaded by navigating to the GitHub URL listed on the
-screen, selecting the green "\<\> Code" icon, and downloading the presentation
-as a compressed .zip file. This will allow you to explore the contents of the
-presentation. I also made this presentation into an R package. One advantage of
-installing this R package with `devtools` is that it will install a few of the
-commonly used R packages that I'm including in this presentation. I've also
-written some helpful functions that you can view by writing `?presentationsR` in
-your R console after installation.
+The presentation can be downloaded by navigating to the GitHub URL listed on the screen, selecting the green "\<\> Code" icon, and downloading the presentation as a compressed .zip file. This will allow you to explore the contents of the presentation. I also made this presentation into an R package. One advantage of installing this R package with `devtools` is that it will install a few of the commonly used R packages that I'm including in this presentation. I've also written some helpful functions that you can view by writing `?presentationsR` in your R console after installation.
 :::
 
 ## Wearable Devices
@@ -174,13 +125,7 @@ your R console after installation.
 :::
 
 ::: notes
-Accelerometry for physical activity research in free-living individuals was
-first introduced in the 1980's. Over the past 40 years, the physical size of
-portable accelerometers is smaller, there is more onboard data storage capacity,
-we have refined data collection and processing protocols, and open-source
-software for wearable device data processing is increasing. The focus of this
-presentation will be on ActiGraph and Fitbit wearable devices. These are the
-devices that we currently use for our research.
+Accelerometry for physical activity research in free-living individuals was first introduced in the 1980's. Over the past 40 years, the physical size of portable accelerometers is smaller, there is more onboard data storage capacity, we have refined data collection and processing protocols, and open-source software for wearable device data processing is increasing. The focus of this presentation will be on ActiGraph and Fitbit wearable devices. These are the devices that we currently use for our research.
 :::
 
 ## Open-source Software
@@ -208,24 +153,7 @@ Open-source software has an important role in advancing scientific reproducibili
 :::
 
 ::: notes
-We are going to look at a basic accelerometry workflow in R. This workflow may
-look different for you depending on the type of monitor you use or the metrics
-that you are interested in from the accelerometer. First, I'll show you how to
-read in the acceleration data from the ActiGraph .gt3x and .agd files. The .gt3x
-files contain binary data for compact storage and the .agd files are SQL
-databases. Second, I'll show you how to convert raw acceleration data to
-ActiGraph counts using ActiGraph's open-source count algorithm. The count
-algorithm was proprietary up until 2022 when ActiGraph made it publicly
-available in Python and our team translated it into an R package. Third, we will
-apply the Choi algorithm to detect non-wear time, apply cut-points, and separate
-the acceleration data into intensity bands. Intensity bands are an alternative
-to cut-points that separates the acceleration data into predetermined bins.
-Finally, we will talk about analyzing and visualizing accelerometry data as a
-compositional variable. Originally, this was an approach for analyzing mineral
-compositions in chemistry, but is now being used to study time-use behaviors
-since sleep, sedentary time, and physical activity make up an entire day. This
-is a powerful analytic approach that allows you study the effect of time-use
-reallocation on health outcomes.
+We are going to look at a basic accelerometry workflow in R. This workflow may look different for you depending on the type of monitor you use or the metrics that you are interested in from the accelerometer. First, I'll show you how to read in the acceleration data from the ActiGraph .gt3x and .agd files. The .gt3x files contain binary data for compact storage and the .agd files are SQL databases. Second, I'll show you how to convert raw acceleration data to ActiGraph counts using ActiGraph's open-source count algorithm. The count algorithm was proprietary up until 2022 when ActiGraph made it publicly available in Python and our team translated it into an R package. Third, we will apply the Choi algorithm to detect non-wear time, apply cut-points, and separate the acceleration data into intensity bands. Intensity bands are an alternative to cut-points that separates the acceleration data into predetermined bins. Finally, we will talk about analyzing and visualizing accelerometry data as a compositional variable. Originally, this was an approach for analyzing mineral compositions in chemistry, but is now being used to study time-use behaviors since sleep, sedentary time, and physical activity make up an entire day. This is a powerful analytic approach that allows you study the effect of time-use reallocation on health outcomes.
 :::
 
 ## Read in the raw acceleration data
@@ -242,20 +170,7 @@ sprintf("Data has %s rows and %s columns", nrow(gt3xData), ncol(gt3xData))
 ```
 
 ::: notes
-One of the easiest and quickest way to read in the binary data to R is through
-the `read.gt3x` R package. This package integrates C++ code into the reading
-functions which provides increased data processing speed. `presentationsR` has
-example .gt3x and .agd data contained within the R package which can be obtained
-by the `system.file` function when installed. The `system.file` function
-retrieves the path name for the file's location which can also be copied
-manually if you download the compressed .zip file containing the contents of the
-R package. Next, you can read in the raw acceleration data to your R environment
-using the `read.gt3x` function from the `read.gt3x` package. The two colons
-attach the function to the package. Alternatively, R packages can be loaded with
-the `library` function. The `asDataFrame` argument converts the data set into a
-data.frame object rather than a matrix which simplifies data processing. The
-data has 18,000 rows and contains a time variable as well as acceleration data
-from the X, Y, and Z axes.
+One of the easiest and quickest way to read in the binary data to R is through the `read.gt3x` R package. This package integrates C++ code into the reading functions which provides increased data processing speed. `presentationsR` has example .gt3x and .agd data contained within the R package which can be obtained by the `system.file` function when installed. The `system.file` function retrieves the path name for the file's location which can also be copied manually if you download the compressed .zip file containing the contents of the R package. Next, you can read in the raw acceleration data to your R environment using the `read.gt3x` function from the `read.gt3x` package. The two colons attach the function to the package. Alternatively, R packages can be loaded with the `library` function. The `asDataFrame` argument converts the data set into a data.frame object rather than a matrix which simplifies data processing. The data has 18,000 rows and contains a time variable as well as acceleration data from the X, Y, and Z axes.
 :::
 
 ## Example Output
@@ -279,10 +194,7 @@ ggplot2::ggplot(data = data_by_second, ggplot2::aes(x = time)) +
 ```
 
 ::: notes
-Here is a plot of the raw acceleration data that we loaded into our R
-environment. The X axis is in dark red, the Y axis is in navy blue, and the Z
-axis is in dark green. The 18,000 rows of data in this file only spans 3 minutes
-which demonstrates the size and complexity of accelerometry data.
+Here is a plot of the raw acceleration data that we loaded into our R environment. The X axis is in dark red, the Y axis is in navy blue, and the Z axis is in dark green. The 18,000 rows of data in this file only spans 3 minutes which demonstrates the size and complexity of accelerometry data.
 :::
 
 ## Using Reticulate
@@ -312,21 +224,7 @@ if(reticulate::py_module_available("pygt3x")){
 ```
 
 ::: notes
-An additional option for reading in data from the .gt3x files is by using
-ActiGraph's `pygt3x` reader. This reader offers a flexible solution to reading
-data from the .gt3x files and aligns with ActiGraph's recommendations. It can
-also calibrate the data from the CentrePoint Insight Watch and handle the .agdc
-file types. However, this reader is written as a Python package which requires
-users to work in both programming languages. The `reticulate` package offers a
-Python-R interface that can be used to call Python packages in R. It does
-require users to navigate Python installation and environment setup before using
-reticulate to access Python packages, but here is an example of what that might
-look like in R after the set up is completed. First, you'd make sure that the
-`pygt3x` module is available. The `import` function loads the necessary Python
-packages and classes before attaching them to an R object with the `$` sign
-operator as seen in lines 5-7. The data can then be read by `FileReader` as
-displayed in lines 8-10. Accessing Python packages via `reticulate` greatly
-expands the utility of R for processing wearable device data.
+An additional option for reading in data from the .gt3x files is by using ActiGraph's `pygt3x` reader. This reader offers a flexible solution to reading data from the .gt3x files and aligns with ActiGraph's recommendations. It can also calibrate the data from the CentrePoint Insight Watch and handle the .agdc file types. However, this reader is written as a Python package which requires users to work in both programming languages. The `reticulate` package offers a Python-R interface that can be used to call Python packages in R. It does require users to navigate Python installation and environment setup before using reticulate to access Python packages, but here is an example of what that might look like in R after the set up is completed. First, you'd make sure that the `pygt3x` module is available. The `import` function loads the necessary Python packages and classes before attaching them to an R object with the `$` sign operator as seen in lines 5-7. The data can then be read by `FileReader` as displayed in lines 8-10. Accessing Python packages via `reticulate` greatly expands the utility of R for processing wearable device data.
 :::
 
 ## Converting to ActiGraph Counts
@@ -347,20 +245,7 @@ epoch_counts <- agcounts:::.sum_counts(resampled_data, epoch = 60)
 ```
 
 ::: notes
-Once we've used a reader to import the raw acceleration data into R, we can
-convert the data to ActiGraph counts using the `agcounts` package. The steps of
-the ActiGraph count algorithm are shown on this slide. To start, we need to know
-the sampling frequency. If you don't have this recorded as part of your study
-information, we've created a method for retrieving the sampling frequency from
-within the `agcounts` R package using the `.get_frequency` function. It is not
-an exported function from the package since it's mostly for internal use, but
-using 3 colons will allow you to call hidden and non-exported functions. If you
-pass in the raw acceleration data to the `.get_frequency` function, you will see
-that the sampling frequency is 100 Hz. Then, you can execute each step of
-ActiGraph's count algorithm to down sample the data to 30 Hz, pass the data
-through a band pass filter, add a normal or low frequency extension filter,
-resample the filtered data to 10 Hz, and add the counts over a user-specified
-epoch such as 60 seconds.
+Once we've used a reader to import the raw acceleration data into R, we can convert the data to ActiGraph counts using the `agcounts` package. The steps of the ActiGraph count algorithm are shown on this slide. To start, we need to know the sampling frequency. If you don't have this recorded as part of your study information, we've created a method for retrieving the sampling frequency from within the `agcounts` R package using the `.get_frequency` function. It is not an exported function from the package since it's mostly for internal use, but using 3 colons will allow you to call hidden and non-exported functions. If you pass in the raw acceleration data to the `.get_frequency` function, you will see that the sampling frequency is 100 Hz. Then, you can execute each step of ActiGraph's count algorithm to down sample the data to 30 Hz, pass the data through a band pass filter, add a normal or low frequency extension filter, resample the filtered data to 10 Hz, and add the counts over a user-specified epoch such as 60 seconds.
 :::
 
 ## The Power of Functions
@@ -389,16 +274,7 @@ epoch such as 60 seconds.
 ```
 
 ::: notes
-This is a perfect time in the presentation to talk about the power of functions
-in R. Here is a look inside the band pass filtering function of the `agcounts` R
-package. You will see that this function operates by calling other functions
-such as `print`, `as.numeric`, `gsignal::filter_zi`, `matrix`, `rownames`, and
-`gsignal_filter`. Each of these functions contain code or other user-defined
-functions operating behind the scenes to accomplish a task. This makes it easier
-for us to apply a band pass filter using minimal code. We can make it even
-easier by creating a function that combines all of the steps of the ActiGraph
-count algorithm into a single function. This is what we call a wrapper function
-and is the purpose of `get_counts` from the `agcounts` R package.
+This is a perfect time in the presentation to talk about the power of functions in R. Here is a look inside the band pass filtering function of the `agcounts` R package. You will see that this function operates by calling other functions such as `print`, `as.numeric`, `gsignal::filter_zi`, `matrix`, `rownames`, and `gsignal_filter`. Each of these functions contain code or other user-defined functions operating behind the scenes to accomplish a task. This makes it easier for us to apply a band pass filter using minimal code. We can make it even easier by creating a function that combines all of the steps of the ActiGraph count algorithm into a single function. This is what we call a wrapper function and is the purpose of `get_counts` from the `agcounts` R package.
 :::
 
 ## A Wrapper Function
@@ -412,16 +288,7 @@ agcounts::get_counts(gt3xFile, epoch = 60, lfe_select = FALSE, parser = "read.gt
 ```
 
 ::: notes
-A wrapper function has the main purpose of calling secondary functions or code
-to ease implementation. You will see all the steps of the ActiGraph count
-algorithm when viewing the code of `get_counts` and notice that the user can
-easily alter the epoch length or add a low frequency extension filter. You will
-notice that the `get_counts` function reads in the data, calculates the count
-values, and returns a data set to R. This takes care of all of the steps that we
-previously covered in just a single line of code. Additionally, there are
-arguments within the function that allows a user to change the reader and
-calibration method or write the data to a .csv file if they want to examine it
-outside of R.
+A wrapper function has the main purpose of calling secondary functions or code to ease implementation. You will see all the steps of the ActiGraph count algorithm when viewing the code of `get_counts` and notice that the user can easily alter the epoch length or add a low frequency extension filter. You will notice that the `get_counts` function reads in the data, calculates the count values, and returns a data set to R. This takes care of all of the steps that we previously covered in just a single line of code. Additionally, there are arguments within the function that allows a user to change the reader and calibration method or write the data to a .csv file if they want to examine it outside of R.
 :::
 
 ## SQL Database
@@ -459,14 +326,7 @@ utils::head(agdData)
 ```
 
 ::: notes
-Reading data from the ActiGraph .agd file is made simpler with the `DBI` R
-package. As `reticulate` is a Python-R interface, `DBI` is a R-Database
-interface. You can connect to the SQL database using the `dbConnect` function,
-read in the data table using `dbReadTable`, and disconnect from the database
-with `dbDisconnect`. You can also view other table options in the .agd files
-with `dbListTables`. Once the data are read into R, you can move into data
-processing steps like wear time marking, applying cut-points, or categorizing
-the data into intensity bands.
+Reading data from the ActiGraph .agd file is made simpler with the `DBI` R package. As `reticulate` is a Python-R interface, `DBI` is a R-Database interface. You can connect to the SQL database using the `dbConnect` function, read in the data table using `dbReadTable`, and disconnect from the database with `dbDisconnect`. You can also view other table options in the .agd files with `dbListTables`. Once the data are read into R, you can move into data processing steps like wear time marking, applying cut-points, or categorizing the data into intensity bands.
 :::
 
 ## Wear Time Marking
@@ -490,21 +350,7 @@ head(agdData)
 ```
 
 ::: notes
-Wear time marking can be completed using the `PhysicalActivity` R package. It
-was written by Dr. Leena Choi and allows users to classify wear and non-wear
-time for accelerometer data on an epoch-by-epoch basis. There are several
-arguments within the function that can be adjusted based on the user's
-preferences. These include the `frame`, `perMinuteCts`, and `allowanceFrame`.
-The `frame` is the time interval to be considered and `allowanceFrame` is the
-size of time interval that zero counts are allowed. These default to the Choi et
-al. (2011) defaults of 90 minutes and 2 minutes, respectively. `perMinuteCts`
-are the number of data rows per minute which defaults to 1-second epochs or 60
-rows per minute. Here we have a value of 1 because our data is currently using
-1-minute epochs. The other arguments within the `wearingMarking` function are
-related to column names. `TS` identifies the column name of the time stamped
-variable, `cts` is the column containing the counts that you want to use to
-calculate non-wear, and `newcolname` is the name of the column in the new data
-set that will contain the wear and non-wear information.
+Wear time marking can be completed using the `PhysicalActivity` R package. It was written by Dr. Leena Choi and allows users to classify wear and non-wear time for accelerometer data on an epoch-by-epoch basis. There are several arguments within the function that can be adjusted based on the user's preferences. These include the `frame`, `perMinuteCts`, and `allowanceFrame`. The `frame` is the time interval to be considered and `allowanceFrame` is the size of time interval that zero counts are allowed. These default to the Choi et al. (2011) defaults of 90 minutes and 2 minutes, respectively. `perMinuteCts` are the number of data rows per minute which defaults to 1-second epochs or 60 rows per minute. Here we have a value of 1 because our data is currently using 1-minute epochs. The other arguments within the `wearingMarking` function are related to column names. `TS` identifies the column name of the time stamped variable, `cts` is the column containing the counts that you want to use to calculate non-wear, and `newcolname` is the name of the column in the new data set that will contain the wear and non-wear information.
 :::
 
 ## Cut-points and Intensity Bands
@@ -531,17 +377,7 @@ head(classified_data[, -c(2:4)])
 ```
 
 ::: notes
-Applying cut-points in R is also straightforward and made easier by the `cut`
-function available in base R. This function takes continuous data and applies
-breaks and labels to the data. Here we are applying a light intensity cut-point
-of 2860 and a moderate intensity cut-point of 3941 from the study by Montoye et
-al. (2020). The `mutate` function from the `dplyr` R package for data
-manipulation allows users to create, modify, and delete columns in their data.
-We can also categorize the count data by predetermined intensity bands. For
-example, in this code we are dividing the data into 7 categories ranging from
-0-1500 vector magnitude counts (vmc) per minute to \> 9000 vmc. The data output
-displays the unique labels that we applied in the `labels` argument of the `cut`
-function.
+Applying cut-points in R is also straightforward and made easier by the `cut` function available in base R. This function takes continuous data and applies breaks and labels to the data. Here we are applying a light intensity cut-point of 2860 and a moderate intensity cut-point of 3941 from the study by Montoye et al. (2020). The `mutate` function from the `dplyr` R package for data manipulation allows users to create, modify, and delete columns in their data. We can also categorize the count data by predetermined intensity bands. For example, in this code we are dividing the data into 7 categories ranging from 0-1500 vector magnitude counts (vmc) per minute to \> 9000 vmc. The data output displays the unique labels that we applied in the `labels` argument of the `cut` function.
 :::
 
 ## Aggregating Intensity Data
@@ -565,17 +401,7 @@ head(agdDataHour)
 ```
 
 ::: notes
-Now that we have our classified data, it is time to aggregate the intensity data
-so we can start looking at summaries. Usually, we'd consider aggregating the
-data to a day-level estimate, but the sample .agd file that we loaded only has
-\~20 hours of data. Thus, as an example, we will aggregate the data to an
-hour-level estimate of movement. I'm showing how to do this with our cut-point
-data but a similar approach could be used for the intensity bands. The
-`to_dummy` function in the `sjmisc` R package can take a character or factor
-variable and convert it to a set of dummy variables based on the variable's
-unique values. These columns can be added to the original data set using
-`cbind`. Next, the user can use the `group_by` and `summarise_at` functions from
-the `dplyr` package to group and sum the data by hour.
+Now that we have our classified data, it is time to aggregate the intensity data so we can start looking at summaries. Usually, we'd consider aggregating the data to a day-level estimate, but the sample .agd file that we loaded only has \~20 hours of data. Thus, as an example, we will aggregate the data to an hour-level estimate of movement. I'm showing how to do this with our cut-point data but a similar approach could be used for the intensity bands. The `to_dummy` function in the `sjmisc` R package can take a character or factor variable and convert it to a set of dummy variables based on the variable's unique values. These columns can be added to the original data set using `cbind`. Next, the user can use the `group_by` and `summarise_at` functions from the `dplyr` package to group and sum the data by hour.
 :::
 
 ## Compositional Data
@@ -592,16 +418,7 @@ unname(compositions::clo(mean(comp, robust = FALSE), total = 60))
 ```
 
 ::: notes
-Now that we've successfully aggregated our data by hour, it's time to find out
-the composition of the data. We can do this with the `acomp` function from the
-`compositions` R package which converts our minutes per hour data into a
-proportion of the hour spent in each time-use behavior. For example, in the
-first hour of the data you can see that we spent \~83% of the hour in sedentary
-time, 8.6% of the hour in light activity, and 8.6% of the hour in
-moderate-to-vigorous physical activity. This proportion changes over the 20
-hours of data, but we can see that the average was 51 min./hour (85%) in
-sedentary time, 4 min./hour (6.7%) in light activity, and 5 min./hour (8.3%) in
-MVPA.
+Now that we've successfully aggregated our data by hour, it's time to find out the composition of the data. We can do this with the `acomp` function from the `compositions` R package which converts our minutes per hour data into a proportion of the hour spent in each time-use behavior. For example, in the first hour of the data you can see that we spent \~83% of the hour in sedentary time, 8.6% of the hour in light activity, and 8.6% of the hour in moderate-to-vigorous physical activity. This proportion changes over the 20 hours of data, but we can see that the average was 51 min./hour (85%) in sedentary time, 4 min./hour (6.7%) in light activity, and 5 min./hour (8.3%) in MVPA.
 :::
 
 ## Analysis: Isometric Log Ratio (ILR) Transformations
@@ -627,20 +444,7 @@ head(ilr_transformed, 5)
 ```
 
 ::: notes
-We can analyze compositional data in regressions, but including all of the
-compositional variables introduces multicollinearity into the model since the
-time-use behaviors will be highly correlated. We can use an isometric log-ratio
-transformation to map a D-part composition onto a D-1 dimensional euclidean
-vector to be analyzed by all of the classical multivariate tools. To accomplish
-this using the `compositions` package, we need to first write a sequential
-binary partition containing +1, 0, and -1 values according to our analysis
-plans. A positive 1 indicates that the variable should be included in the
-numerator, a value of 0 excludes the variable, and a negative 1 adds the
-variable to the denominator. The sequential binary partition is arbitrary and
-can be adjusted based on your research question. For example, if I decided that
-I want to look at MVPA relative to sedentary time, I could change the -1 to 0 in
-the second row and first column. Similarly, I could change row 3, column 2 to +1
-to look at physical activity (light and MVPA) relative to sedentary time. 
+We can analyze compositional data in regressions, but including all of the compositional variables introduces multicollinearity into the model since the time-use behaviors will be highly correlated. We can use an isometric log-ratio transformation to map a D-part composition onto a D-1 dimensional euclidean vector to be analyzed by all of the classical multivariate tools. To accomplish this using the `compositions` package, we need to first write a sequential binary partition containing +1, 0, and -1 values according to our analysis plans. A positive 1 indicates that the variable should be included in the numerator, a value of 0 excludes the variable, and a negative 1 adds the variable to the denominator. The sequential binary partition is arbitrary and can be adjusted based on your research question. For example, if I decided that I want to look at MVPA relative to sedentary time, I could change the -1 to 0 in the second row and first column. Similarly, I could change row 3, column 2 to +1 to look at physical activity (light and MVPA) relative to sedentary time.
 :::
 
 ## Behind the Scenes: The ILR Function
@@ -667,21 +471,7 @@ all(ilr == ilr_transformed)
 ```
 
 ::: notes
-The math is straightforward but involves some understanding of log
-transformations and matrix multiplication. Here is the some code using base R
-that produces equivalent output to the `compositions::ilr` function as seen by
-the `TRUE` output at the bottom of the slide indicating that all the values in
-the output are identical. The code that is highlighted represents building the
-base of the centered log ratio plane as done by the
-`compositions::gsi.buildilrBase` function. The next part is isometric log ratio
-transformation which involves centering the log ratio transformed compositions
-before using matrix multiplication on the centered log ratio transformed
-compositions and the base. This code was extracted and modified from the
-`compositions` package and is a good example of how you can learn more about
-advanced techniques through the exploration of source code. It was a technique
-that I used here to learn more about compositional analysis, but also an
-approach that I used to learn about the ActiGraph count alogrithm when
-translating the python package.
+The math is straightforward but involves some understanding of log transformations and matrix multiplication. Here is the some code using base R that produces equivalent output to the `compositions::ilr` function as seen by the `TRUE` output at the bottom of the slide indicating that all the values in the output are identical. The code that is highlighted represents building the base of the centered log ratio plane as done by the `compositions::gsi.buildilrBase` function. The next part is isometric log ratio transformation which involves centering the log ratio transformed compositions before using matrix multiplication on the centered log ratio transformed compositions and the base. This code was extracted and modified from the `compositions` package and is a good example of how you can learn more about advanced techniques through the exploration of source code. It was a technique that I used here to learn more about compositional analysis, but also an approach that I used to learn about the ActiGraph count alogrithm when translating the python package.
 :::
 
 ## Analysis: An Alternative ILR Transformation
@@ -710,11 +500,7 @@ all.equal(MoveKC::ilr_pivotCoord(X), robCompositions::pivotCoord(X))
 ```
 
 ::: notes
-An alternative isometric log ratio transformation can be completed using the
-`robCompositions` R package. The formulas for this transformation are included
-on this slide and the transformation may be easier to understand than the one from
-the `compositions` package. Based on the equations in this slide, all of the
-relative information about MVPA would be included in that first pivot coordinate.
+An alternative isometric log ratio transformation can be completed using the `robCompositions` R package. The formulas for this transformation are included on this slide and the transformation may be easier to understand than the one from the `compositions` package. Based on the equations in this slide, all of the relative information about MVPA would be included in that first pivot coordinate.
 :::
 
 ## Next Steps
@@ -733,19 +519,7 @@ relative information about MVPA would be included in that first pivot coordinate
 :::
 
 ::: notes
-Now that you've completed the data processing, you can start to explore the
-composition using visualizations and multivariate tools. A plot that is useful
-to visualize compositional data is a ternary plot similar to the one pictured on
-this slide. A ternary plot is a graphical representation of data consisting of 3
-components. In this example, our components include sleep, sedentary time, and
-physical activity with an average composition of 32.2% of the day in sleep,
-56.6% of the day spent doing sedentary activities, and 11.2% of the day spent
-doing light or moderate-to-vigorous physical activity. You can also start to
-explore raw acceleration data and isotemporal substitution models which look at
-how the reallocation of time between sleep, physical activity, and sedentary
-time might affect your health outcomes. This may help answer causal questions in
-observational studies about dose-effect responses to increasing physical
-activity.
+Now that you've completed the data processing, you can start to explore the composition using visualizations and multivariate tools. A plot that is useful to visualize compositional data is a ternary plot similar to the one pictured on this slide. A ternary plot is a graphical representation of data consisting of 3 components. In this example, our components include sleep, sedentary time, and physical activity with an average composition of 32.2% of the day in sleep, 56.6% of the day spent doing sedentary activities, and 11.2% of the day spent doing light or moderate-to-vigorous physical activity. You can also start to explore raw acceleration data and isotemporal substitution models which look at how the reallocation of time between sleep, physical activity, and sedentary time might affect your health outcomes. This may help answer causal questions in observational studies about dose-effect responses to increasing physical activity.
 :::
 
 ## Fitbit API
@@ -759,13 +533,7 @@ activity.
 :::
 
 ::: notes
-An additional area of focus for our team has been on the collection, processing,
-and analysis of Fitbit data. We had several R01 clinical trials that used
-third-party companies to retrieve Fitbit data for each participant. This works
-great when you have the funding. However, small pilot studies may lack the
-budget and investigators may not want participant data distributed across
-multiple platforms. Tools in R make it possible and relatively easy to retrieve
-data from the Fitbit API. And the best part is that it can be automated!
+An additional area of focus for our team has been on the collection, processing, and analysis of Fitbit data. We had several R01 clinical trials that used third-party companies to retrieve Fitbit data for each participant. This works great when you have the funding. However, small pilot studies may lack the budget and investigators may not want participant data distributed across multiple platforms. Tools in R make it possible and relatively easy to retrieve data from the Fitbit API. And the best part is that it can be automated!
 :::
 
 ## iFibit
@@ -785,17 +553,7 @@ vignette("fitbit-application", package = "iFitbit")
 ```
 
 ::: notes
-We created `iFitbit` to simplify working with the Fitbit API. It allows you to
-extract activity, exercise, sleep, and heart rate data to store in a SQL
-database and run interactive reports for the research team. You can install it
-using the `devtools::install_github` function that we used earlier in this
-presentation. However, if you want to install the "getting started" vignette,
-you will want to add `build_vignettes = TRUE` into the function. This will
-provide access to a vignette that will walk you through some of the steps for
-registering as a Fitbit developer. The README.md page on GitHub has information
-on interacting with the R package and code examples, so I will not do a deep
-dive into the package here. Instead, I will focus on a workflow for extracting,
-processing, and automating the Fitbit reports.
+We created `iFitbit` to simplify working with the Fitbit API. It allows you to extract activity, exercise, sleep, and heart rate data to store in a SQL database and run interactive reports for the research team. You can install it using the `devtools::install_github` function that we used earlier in this presentation. However, if you want to install the "getting started" vignette, you will want to add `build_vignettes = TRUE` into the function. This will provide access to a vignette that will walk you through some of the steps for registering as a Fitbit developer. The README.md page on GitHub has information on interacting with the R package and code examples, so I will not do a deep dive into the package here. Instead, I will focus on a workflow for extracting, processing, and automating the Fitbit reports.
 :::
 
 ## Example Data from the Fitbit API
@@ -815,18 +573,7 @@ tbl_n
 ```
 
 ::: notes
-Included in the `CASCSM24` presentation is an example database containing data
-extracted from the Fitbit Web API. It has activity data, information about the
-device, an exercise log, intensity by heart rate, and sleep data. This is the
-information we have used in previous studies, but is a lot of other data that
-can be extracted from the API like body weight, nutrition, heart rate
-variability, fitness, social network, and more. A complete list of data
-available can be found by navigating to the link posted on this slide. An
-example database can be loaded into your R environment by using the
-`DBI::dbConnect` function that we used earlier for the ActiGraph .agd files. The
-`lapply` function here loops through the tables in the SQL database and returns
-them as a list to your R environment. This is an easy way to load all the data
-at the same time.
+Included in the `CASCSM24` presentation is an example database containing data extracted from the Fitbit Web API. It has activity data, information about the device, an exercise log, intensity by heart rate, and sleep data. This is the information we have used in previous studies, but is a lot of other data that can be extracted from the API like body weight, nutrition, heart rate variability, fitness, social network, and more. A complete list of data available can be found by navigating to the link posted on this slide. An example database can be loaded into your R environment by using the `DBI::dbConnect` function that we used earlier for the ActiGraph .agd files. The `lapply` function here loops through the tables in the SQL database and returns them as a list to your R environment. This is an easy way to load all the data at the same time.
 :::
 
 ## Activities
@@ -840,10 +587,7 @@ gt::gt(data[["activities"]][1:10, -c(2:3)]) |>
 ```
 
 ::: notes
-A daily summary of the activity data collected by Fitbit can be extracted from
-the API. Variables of interest in this data set may include steps and minutes of
-sedentary and active minutes. We generally combine the fairly and very active
-minutes as an estimate of moderate-to-vigorous physical activity.
+A daily summary of the activity data collected by Fitbit can be extracted from the API. Variables of interest in this data set may include steps and minutes of sedentary and active minutes. We generally combine the fairly and very active minutes as an estimate of moderate-to-vigorous physical activity.
 :::
 
 ## Exercise Log
@@ -857,14 +601,7 @@ gt::gt(data[["exercise_log"]][1:10, ]) |>
 ```
 
 ::: notes
-Intentional exercise summaries may also be an important data set to include in
-your study especially if it is an exercise intervention. This often requires the
-participant to start and stop their watch but we also have the ability to filter
-through auto-detected exercise sessions. This offers a single line summary of
-the exercise session including duration, steps, calories burned, and average
-heart rate during the session. It also provides a time stamp of the exercise
-session in case you wanted to extract the activity or heart rate data for an
-intra-workout comparison.
+Intentional exercise summaries may also be an important data set to include in your study especially if it is an exercise intervention. This often requires the participant to start and stop their watch but we also have the ability to filter through auto-detected exercise sessions. This offers a single line summary of the exercise session including duration, steps, calories burned, and average heart rate during the session. It also provides a time stamp of the exercise session in case you wanted to extract the activity or heart rate data for an intra-workout comparison.
 :::
 
 ## Sleep and Intensity by Heart Rate
@@ -878,16 +615,7 @@ gt::gt(data[["heart"]][1:10, ]) |>
 ```
 
 ::: notes
-Most of the development work on this package has focused on extracting the
-intraday heart rate data. Here you see a summary of the heart rate data where we
-extracted the raw heart rate data for every minute of the study and classified
-non-sleep wear time as sedentary, very light, light, moderate, vigorous, or near
-maximal intensity based on ACSM's equations. We customized this function to
-allow users to change the maximal heart rate formula and how intensity is
-calculated (i.e., heart rate reserve or maximal heart rate methods). Users can
-also alter the heart rate intensity zones and their labels if they do not want
-to use the ACSM intensities or want to simplify the output (i.e., have fewer
-intensity categories).
+Most of the development work on this package has focused on extracting the intraday heart rate data. Here you see a summary of the heart rate data where we extracted the raw heart rate data for every minute of the study and classified non-sleep wear time as sedentary, very light, light, moderate, vigorous, or near maximal intensity based on ACSM's equations. We customized this function to allow users to change the maximal heart rate formula and how intensity is calculated (i.e., heart rate reserve or maximal heart rate methods). Users can also alter the heart rate intensity zones and their labels if they do not want to use the ACSM intensities or want to simplify the output (i.e., have fewer intensity categories).
 :::
 
 ## Heart Rate Intraday Function
@@ -917,23 +645,7 @@ get_fitbit_heart_intraday(
 ```
 
 ::: notes
-Here is the heart rate intraday function within the `iFitbit` package to give
-you an idea of some of the customization that can happen. The `token.pathname`
-is the access token to the user's account that will be saved to your computer as
-part of the authentication process. The `start.date` and `end.date` are the
-range of dates for which you want the heart rate data extracted and
-`detail.level` is the epoch level desired which can be 1 second, 1 minute, 5
-minutes, or 15 minutes. Lines 6-11 are where the customization of the heart rate
-intensity classification will happen. Users can change the age-based heart rate
-formula or alter any of the intensities or their labels. The `heart_rate_method`
-allows users to easily switch between heart rate reserve or maximal heart rate
-formulas and resting heart rate can be inputed into the function or extracted
-from the Fitbit data if it is available. The `do.parallel` argument helps speed
-up processing time by using n-1 cores on your computer to process the intraday
-data since there could be up to 86,400 observations per day if the heart rate
-data are extracted in 1-second level epochs. Finally, the user can choose to
-return the raw or summarized data to their R environment or write the data to a
-SQL database assuming one was created during the authentication process.
+Here is the heart rate intraday function within the `iFitbit` package to give you an idea of some of the customization that can happen. The `token.pathname` is the access token to the user's account that will be saved to your computer as part of the authentication process. The `start.date` and `end.date` are the range of dates for which you want the heart rate data extracted and `detail.level` is the epoch level desired which can be 1 second, 1 minute, 5 minutes, or 15 minutes. Lines 6-11 are where the customization of the heart rate intensity classification will happen. Users can change the age-based heart rate formula or alter any of the intensities or their labels. The `heart_rate_method` allows users to easily switch between heart rate reserve or maximal heart rate formulas and resting heart rate can be inputed into the function or extracted from the Fitbit data if it is available. The `do.parallel` argument helps speed up processing time by using n-1 cores on your computer to process the intraday data since there could be up to 86,400 observations per day if the heart rate data are extracted in 1-second level epochs. Finally, the user can choose to return the raw or summarized data to their R environment or write the data to a SQL database assuming one was created during the authentication process.
 :::
 
 ## Intraday Visualization of Heart Rate Data
@@ -941,13 +653,7 @@ SQL database assuming one was created during the authentication process.
 ![](images/fitbitRaw.png)
 
 ::: notes
-An advantage of extracting the raw heart rate data is that you can start to look
-at time series trends of exercise intensity throughout the day or the exercise
-session. Producing plots like these may be useful to the research team to
-identify when a participant likes to exercise or is most active throughout the
-day. You could change the x-axis of the plot to minutes or seconds if you are
-interested in the efficacy of an intervention and whether or not participants
-are achieving their target heart rates.
+An advantage of extracting the raw heart rate data is that you can start to look at time series trends of exercise intensity throughout the day or the exercise session. Producing plots like these may be useful to the research team to identify when a participant likes to exercise or is most active throughout the day. You could change the x-axis of the plot to minutes or seconds if you are interested in the efficacy of an intervention and whether or not participants are achieving their target heart rates.
 :::
 
 ## Interday Visualization of Heart Rate Data
@@ -955,12 +661,7 @@ are achieving their target heart rates.
 ![](images/fitbitSummary.png)
 
 ::: notes
-You can also monitor trends throughout the course of an intervention by
-aggregating the data to day-level estimates of sedentary time, light activity,
-and moderate-to-vigorous physical activity. Typically, we may see plots like
-these for accelerometer data from ActiGraphs or activity data from Fitbits, but
-the heart rate-derived estimates provide an physiological-based metric that may
-provide improved accuracy.
+You can also monitor trends throughout the course of an intervention by aggregating the data to day-level estimates of sedentary time, light activity, and moderate-to-vigorous physical activity. Typically, we may see plots like these for accelerometer data from ActiGraphs or activity data from Fitbits, but the heart rate-derived estimates provide an physiological-based metric that may provide improved accuracy.
 :::
 
 ## Example Report
@@ -970,13 +671,7 @@ provide improved accuracy.
 </iframe>
 
 ::: notes
-The package is also set up to deliver interactive reports to the research team.
-This could be for heath educators, the PI of the study, or other team members
-who need to have this information. The reports can be customized using R
-Markdown and Quarto documents allowing each team to develop their own customized
-report. Packages like `plotly` and `reactable` can make these reports
-interactive allowing the research team to pan, scroll, or zoom into the metrics
-needed during a meeting with the team or participant.
+The package is also set up to deliver interactive reports to the research team. This could be for heath educators, the PI of the study, or other team members who need to have this information. The reports can be customized using R Markdown and Quarto documents allowing each team to develop their own customized report. Packages like `plotly` and `reactable` can make these reports interactive allowing the research team to pan, scroll, or zoom into the metrics needed during a meeting with the team or participant.
 :::
 
 ## Automating the Process
@@ -1000,14 +695,7 @@ cronR::cron_rm('iFitbitReport') # Remove cron job
 ```
 
 ::: notes
-Once you have a script set up to extract data from the participants in your
-clinical trial, you can automate this process using a package called `cronR`.
-This can also be accomplished on a Windows computer using the `taskscheduleR` R
-package. Here I set up the script.R file to run every 9 am on Monday-Friday.
-Within the script, you may also wish to upload the reports to the cloud for easy
-access or send the reports via email to the research team. This is beyond the
-scope of the presentation, but I'm happy to talk with you about additional
-approaches that we have used to make this possible.
+Once you have a script set up to extract data from the participants in your clinical trial, you can automate this process using a package called `cronR`. This can also be accomplished on a Windows computer using the `taskscheduleR` R package. Here I set up the script.R file to run every 9 am on Monday-Friday. Within the script, you may also wish to upload the reports to the cloud for easy access or send the reports via email to the research team. This is beyond the scope of the presentation, but I'm happy to talk with you about additional approaches that we have used to make this possible.
 :::
 
 ## Conclusions
@@ -1019,18 +707,7 @@ approaches that we have used to make this possible.
 -   Customized software for wearable devices can save time and increase collaboration in physical behavior research
 
 ::: notes
-In conclusion, many scientists view software as an important part of their
-research. I hope the presentation today demonstrated some of the value that
-open-source software can have in research using wearable devices. Scientists who
-are developing software, even at a beginner level, may benefit from open-source
-resources like GitHub that allow users to track and discuss changes to the
-software developed. This may enhance the learning process for the scientist
-developing the software by allowing others inspect, modify, and enhance their
-code. This also increases reproducibility and drives innovation. Finally,
-customized software for wearable devices can save time and increase
-collaboration in physical behavior research. It has been a skillset that I
-developed as a postdoctoral fellow at the University of Kansas and it has led to
-collaborations with investigators at various institutions.
+In conclusion, many scientists view software as an important part of their research. I hope the presentation today demonstrated some of the value that open-source software can have in research using wearable devices. Scientists who are developing software, even at a beginner level, may benefit from open-source resources like GitHub that allow users to track and discuss changes to the software developed. This may enhance the learning process for the scientist developing the software by allowing others inspect, modify, and enhance their code. This also increases reproducibility and drives innovation. Finally, customized software for wearable devices can save time and increase collaboration in physical behavior research. It has been a skillset that I developed as a postdoctoral fellow at the University of Kansas and it has led to collaborations with investigators at various institutions.
 :::
 
 ## References

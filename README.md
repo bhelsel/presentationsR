@@ -28,15 +28,11 @@ devtools::install_github("bhelsel/presentationsR") # Install the presentationsR 
 
 ## Downloading the presentation
 
-The presentation is currently inside Quarto document located in the qmd foler within the package. To make downloading the package easier, you can use the `render_presentation` function that is exported in `presentationsR`. The `outdir` argument should be changed to the location that you want to presentation rendered to on your local computer. Once you run the `render_presentation` in your R console, the presentation will be rendered as a revealjs presentation which will allow you to see the content and speaker notes.
+The presentation is currently inside Quarto document located in the qmd folder within the package. You can open the presentation in your default web browser by running the `render_presentation` function within the `presentationsR` package. The presentation will be rendered as a revealjs presentation which will allow you to see the content and speaker notes.
 
 ```r
 
-username = "name"
-
-outdir = sprintf("/Users/%s/Downloads", username)
-
-presentationsR::render_presentation(outdir, name = "csacsm24")
+presentationsR::render_presentation(name = "csacsm24")
 
 ```
 
