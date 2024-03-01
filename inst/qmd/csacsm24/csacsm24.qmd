@@ -100,7 +100,7 @@ Downloading R is necessary to run the code in this presentation. I recommend RSt
 # Install the presentationsR package
 options(timeout = 999999) # Increase to avoid timeout issues
 devtools::install_github("bhelsel/presentationsR")
-presentationsR::render_presentation(outdir = "/full/path/to/folder", name = "csacsm24")
+presentationsR::render_presentation(name = "csacsm24")
 ```
 
 **Visit GitHub to download as a compressed .zip file**
@@ -110,7 +110,7 @@ presentationsR::render_presentation(outdir = "/full/path/to/folder", name = "csa
 ![](images/github.png)
 
 ::: notes
-The presentation can be downloaded by navigating to the GitHub URL listed on the screen, selecting the green "\<\> Code" icon, and downloading the presentation as a compressed .zip file. This will allow you to explore the contents of the presentation. I also made this presentation into an R package. One advantage of installing this R package with `devtools` is that it will install a few of the commonly used R packages that I'm including in this presentation. I've also written some helpful functions that you can view by writing `?presentationsR` in your R console after installation.
+The presentation can be downloaded by navigating to the GitHub URL listed on the screen, selecting the green "\<\> Code" icon, and downloading the presentation as a compressed .zip file. This will allow you to explore the contents of the presentation. I also made this presentation into an R package. One advantage of installing this R package with `devtools` is that it will install a few of the commonly used R packages that I'm including in this presentation. I've also written a function that will render and open this presentation in your default web browser allowing you to access the content and speaker notes.
 :::
 
 ## Wearable Devices
