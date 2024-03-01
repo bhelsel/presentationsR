@@ -4,10 +4,16 @@
 \alias{render_presentation}
 \title{render_presentation}
 \usage{
-render_presentation(name, ...)
+render_presentation(outdir, name, open_html = TRUE, save_as_pdf = FALSE, ...)
 }
 \arguments{
+\item{outdir}{Directory to download the presentation to on your local computer}
+
 \item{name}{Name of the presentation or workshop to render}
+
+\item{open_html}{Open the revealjs in the default web browser, Default: TRUE}
+
+\item{save_as_pdf}{Save the revealjs as a pdf document, Default: FALSE}
 
 \item{...}{Additional parameters passed to quarto::quarto_render}
 }

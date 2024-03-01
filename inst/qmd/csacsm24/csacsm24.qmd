@@ -100,7 +100,7 @@ Downloading R is necessary to run the code in this presentation. I recommend RSt
 # Install the presentationsR package
 options(timeout = 999999) # Increase to avoid timeout issues
 devtools::install_github("bhelsel/presentationsR")
-presentationsR::render_presentation(name = "csacsm24")
+presentationsR::render_presentation(outdir = "/full/path/to/folder", name = "csacsm24")
 ```
 
 **Visit GitHub to download as a compressed .zip file**
