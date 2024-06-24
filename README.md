@@ -42,7 +42,7 @@ username = "name"
 
 outdir = sprintf("/Users/%s/Downloads", username)
 
-presentationsR::render_presentation(outdir, name = "csacsm24")
+presentationsR::render_presentation(outdir, name = "wearables")
 
 ```
 

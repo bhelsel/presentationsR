@@ -3,15 +3,11 @@
 
 # Copyright © 2024 University of Kansas. All rights reserved.
 
-#' @title CSACSM24: Presentation for the 2024 Central States ACSM Regional Meeting
+#' @title presentationsR: Presentations Created Using R and Quarto
 #'
-#' @description Useful functions for accelerometry data processing and analysis and
-#'     a presentation for the 2024 Centeral States ACSM Regional Meeting. The title
-#'     of the presentation is "An introduction to open-source R software for wearable
-#'     device data processing and analysis". The presentation can be downloaded at
-#'     \url{https://github.com/bhelsel/CSACSM24}.
+#' @description Render presentations created in R and Quarto.
 #'
-#' @section CSACSM24 functions:
+#' @section presentationsR functions:
 #'
 #' \code{\link{render_presentation}}
 #'
@@ -28,6 +24,6 @@
 #' @importFrom robCompositions pivotCoord
 #' @importFrom sjmisc to_dummy
 #' @importFrom utils browseURL
-#' @name CSACSM24
+#' @name presentationsR
 
 NULL
