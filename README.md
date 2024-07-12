@@ -1,7 +1,7 @@
 
 # presentationsR
 
-The goal of presentationsR is to provide an accessible version of wearable device presentations given by Dr. Brian Helsel. Currently, the only included presentation is from the 2024 Central States American College of Sports Medicine's regional meeting.
+The goal of presentationsR is to provide an accessible version of wearable device presentations given by Dr. Brian Helsel.
 
 <hr style="border: 1px solid;">
 
