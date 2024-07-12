@@ -1,12 +1,11 @@
 Package: presentationsR
 Type: Package
-Title: Presentation for the 2024 Central States ACSM Regional Meeting
+Title: Quarto Presentations
 Version: 0.1.0
 Author: Brian C. Helsel
 Maintainer: Brian C. Helsel <bhelsel@kumc.edu>
-Description: Presentation for the 2024 Central States ACSM Regional Meeting.
-  This presentation is titled An introduction to open-source R software for 
-  wearable device data processing and analysis.
+Description: Quarto Presentations given by Dr. Brian Helsel
+    - An introduction to open-source R software for wearable device data processing and analysis.
 Imports:
   agcounts,
   compositions,
