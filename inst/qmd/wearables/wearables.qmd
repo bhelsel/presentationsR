@@ -573,7 +573,7 @@ tbl_n
 ```
 
 ::: notes
-Included in the `CASCSM24` presentation is an example database containing data extracted from the Fitbit Web API. It has activity data, information about the device, an exercise log, intensity by heart rate, and sleep data. This is the information we have used in previous studies, but is a lot of other data that can be extracted from the API like body weight, nutrition, heart rate variability, fitness, social network, and more. A complete list of data available can be found by navigating to the link posted on this slide. An example database can be loaded into your R environment by using the `DBI::dbConnect` function that we used earlier for the ActiGraph .agd files. The `lapply` function here loops through the tables in the SQL database and returns them as a list to your R environment. This is an easy way to load all the data at the same time.
+Included in the presentation is an example database containing data extracted from the Fitbit Web API. It has activity data, information about the device, an exercise log, intensity by heart rate, and sleep data. This is the information we have used in previous studies, but is a lot of other data that can be extracted from the API like body weight, nutrition, heart rate variability, fitness, social network, and more. A complete list of data available can be found by navigating to the link posted on this slide. An example database can be loaded into your R environment by using the `DBI::dbConnect` function that we used earlier for the ActiGraph .agd files. The `lapply` function here loops through the tables in the SQL database and returns them as a list to your R environment. This is an easy way to load all the data at the same time.
 :::
 
 ## Activities
