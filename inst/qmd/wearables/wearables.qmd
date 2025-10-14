@@ -59,7 +59,7 @@ The purpose of today's presentation is to:
 1.  Introduce you to R packages used in physical activity research
 2.  Provide examples with code for how physical activity data can be processed, analyzed, and visualized in R.
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
 ![](images/actigraph-leap.webp){.nostretch width="50%"}
 :::
@@ -67,7 +67,7 @@ The purpose of today's presentation is to:
 ::: {.column width="50%"}
 ![](images/fitbit-versa.png){.nostretch width="75%"}
 :::
-:::
+:::::
 
 ::: notes
 The purpose of today's presentation is to introduce you to some of these commonly used R packages for physical activity research. It is not designed to be a comprehensive review of the packages, but will provide you with some examples and code to help get you started. I will focus on 2 brands of wearable devices that we frequently use in our research studies at the University of Kansas which include the ActiGraph and Fitbit.
@@ -476,7 +476,7 @@ The math is straightforward but involves some understanding of log transformatio
 
 ## Analysis: An Alternative ILR Transformation
 
-::: columns
+::::: columns
 ::: {.column .math-col width="49%"}
 $$
 z1 = \sqrt{\frac{2}{3}} \cdot \ln\left(\frac{MVPA}{\sqrt[2]{SB \cdot LPA}}\right)
@@ -488,7 +488,7 @@ $$
 z2 = \sqrt{\frac{1}{2}} \cdot \ln\left(\frac{LPA}{\sqrt[1]{SB}}\right)
 $$
 :::
-:::
+:::::
 
 Templ et al. (2011) robCompositions: An R-package for Robust Statistical Analysis of Compositional Data[@templ2011robcompositions]
 
@@ -505,7 +505,7 @@ An alternative isometric log ratio transformation can be completed using the `ro
 
 ## Next Steps
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
 -   Visualize the data using ternary plots
 -   Use different multivariate tools
@@ -516,7 +516,7 @@ An alternative isometric log ratio transformation can be completed using the `ro
 ::: {.column width="50%"}
 ![](images/comp-means.png)
 :::
-:::
+:::::
 
 ::: notes
 Now that you've completed the data processing, you can start to explore the composition using visualizations and multivariate tools. A plot that is useful to visualize compositional data is a ternary plot similar to the one pictured on this slide. A ternary plot is a graphical representation of data consisting of 3 components. In this example, our components include sleep, sedentary time, and physical activity with an average composition of 32.2% of the day in sleep, 56.6% of the day spent doing sedentary activities, and 11.2% of the day spent doing light or moderate-to-vigorous physical activity. You can also start to explore raw acceleration data and isotemporal substitution models which look at how the reallocation of time between sleep, physical activity, and sedentary time might affect your health outcomes. This may help answer causal questions in observational studies about dose-effect responses to increasing physical activity.

@@ -1,0 +1,107 @@
+/*-- scss:defaults --*/
+
+// fonts
+$font-family-sans-serif: "Arial" !default;
+$presentation-p-font-size: 3.77em !default;
+
+// headings
+$presentation-heading-font: "Arial" !default;
+$presentation-heading-color: #000000 !default;
+$presentation-h2-font-size: 1.1em !default;
+
+// colors
+$body-bg: #fff !default;
+$body-color: #000 !default;
+$link-color: #0051ba !default;
+$selection-bg: #ff5e99 !default;
+$input-panel-bg: rgba(233, 236, 239, 0.2) !default;
+
+
+/*-- scss:rules --*/
+
+li, p {
+  font-size: 0.75em;
+}
+
+#title-slide h1{
+  font-size: 0.85em;
+}
+
+#title-slide .quarto-title-author-name {
+  font-size: 0.8em;
+  padding-top: 50px;
+}
+
+#title-slide .quarto-title-affiliation {
+  font-size: 0.8em;
+  padding-top: 15px;
+}
+
+.slide-background-content{
+  background-image: url('styles/slides/KUMCTitleContent.jpg');
+  background-size: 100% 100%;
+}
+
+// Custom CSS Added from RLAB
+
+.no-bg .slide-background-content {
+  background-image: none !important;
+  background-color: #DDE6ED !important;
+}
+
+.no-bg-white .slide-background-content {
+  background-image: none !important;
+  background-color: #FFFFFF !important;
+}
+
+// Tables
+.reveal table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(31, 71, 136, 0.15);
+  font-size: 18px;
+}
+
+.reveal table th {
+  background: #1f4788;
+  color: white;
+  font-weight: 600;
+  padding: 0.8em 1em;
+  text-align: left;
+}
+
+.reveal table td {
+  padding: 0.7em 1em;
+  border-bottom: 1px solid rgba(31, 71, 136, 0.08);
+}
+
+.reveal table tr:nth-child(even) {
+  background: rgba(31, 71, 136, 0.02);
+}
+
+.repos {
+  display: flex;
+  align-items: flex-start;  /* top alignment */
+  justify-content: center;  /* horizontal centering (optional) */
+  height: 100%;  /* ensures the container takes full height */
+}
+
+.repos img {
+  border-radius: 12px;
+  padding: 4px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.25);
+  transition: all 0.3s ease;
+  max-width: 100%;
+  height: auto;
+  border: 3px solid white;
+  background-clip: padding-box;
+}
+
+.repos img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.35);
+}
