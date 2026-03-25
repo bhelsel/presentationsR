@@ -30,7 +30,7 @@ render_presentation <- function(
   file.copy(from = inputdir, to = outdir, recursive = TRUE)
   qmd_f <- list.files(
     file.path(outdir, name),
-    pattern = ".qmd$",
+    pattern = sprintf("%s.qmd$", name),
     full.names = TRUE
   )
   quarto::quarto_render(input = qmd_f, ...)
