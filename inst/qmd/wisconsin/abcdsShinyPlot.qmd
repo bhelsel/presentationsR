@@ -1,0 +1,147 @@
+---
+format:
+  kansas-revealjs: default
+server: shiny
+---
+
+
+```{r}
+#| echo: false
+#| panel: sidebar
+
+xcols <- c("de_gender", "de_ethnicity", "ht", "wt", "bmi")
+ycols <- c("ht", "wt", "bmi")
+
+shiny::radioButtons(
+  "figure_or_table",
+  "Choose Figure or Table:",
+  inline = TRUE,
+  choices = c("Figure", "Table"),
+  selected = "Figure"
+)
+
+shiny::br()
+
+shiny::conditionalPanel(
+  condition = "input.figure_or_table == 'Figure'",
+  # fmt: skip
+  shiny::selectInput('xcol', 'X Variable', choices = xcols, selected = xcols[1]),
+  shiny::br(),
+  # fmt: skip
+  shiny::selectInput('ycol', 'Y Variable', choices = ycols, selected = ycols[1]),
+  shiny::br()
+)
+
+shiny::conditionalPanel(
+  condition = "input.figure_or_table == 'Table'",
+  # fmt: skip
+  shiny::selectizeInput("variables", "Add Variables to the Table", choices = xcols, multiple = TRUE)
+)
+
+```
+
+```{r}
+#| echo: false
+#| panel: fill
+
+shiny::conditionalPanel(
+  condition = "input.figure_or_table == 'Figure'",
+  shiny::plotOutput('plot')
+)
+
+shiny::conditionalPanel(
+  condition = "input.figure_or_table == 'Table'",
+  shiny::htmlOutput('table')
+)
+
+```
+
+```{r}
+#| echo: false
+#| context: server
+
+data <- shiny::reactive({
+  abcds::read_athropometrics() |>
+    dplyr::filter(event_sequence == 1) |>
+    abcds::apply_labels(add_factor_labels = TRUE)
+})
+
+shiny::observe({
+  shiny::req(input$xcol, input$ycol)
+  ycols <- c("ht", "wt", "bmi")
+  if (input$xcol %in% ycols) {
+    ycols <- ycols[-which(ycols == input$xcol)]
+  }
+  updated_ycol <- if (input$ycol == input$xcol) ycols[1] else input$ycol
+  shiny::updateSelectInput(
+    inputId = "ycol",
+    choices = ycols,
+    selected = updated_ycol
+  )
+})
+
+output$plot <- shiny::renderPlot({
+  shiny::req(data(), input$xcol, input$ycol)
+  xcol = input$xcol
+  ycol = input$ycol
+  data <- data()
+  attr(data[["bmi"]], "label") <- "Body Mass Index"
+  if (xcol %in% c("de_gender", "de_ethnicity")) {
+    plot <- data |>
+      dplyr::select(dplyr::all_of(c(xcol, ycol))) |>
+      dplyr::filter(!is.na(.data[[xcol]]) & !is.na(.data[[ycol]])) |>
+      tidyr::pivot_longer(cols = dplyr::all_of(ycol)) |>
+      ggplot2::ggplot(ggplot2::aes(
+        x = .data[[xcol]],
+        y = value,
+        fill = .data[[xcol]]
+      )) +
+      ggplot2::geom_boxplot(outlier.shape = NA) +
+      ggplot2::geom_jitter(alpha = 0.5) +
+      ggplot2::labs(y = attr(data[[ycol]], "label"))
+  } else {
+    plot <- data |>
+      dplyr::filter(!is.na(.data[[xcol]]) & !is.na(.data[[ycol]])) |>
+      ggplot2::ggplot(ggplot2::aes(x = .data[[xcol]], y = .data[[ycol]])) +
+      ggplot2::geom_point() +
+      ggplot2::geom_smooth(method = "loess", formula = "y ~ x")
+  }
+
+  plot +
+    ggplot2::labs(title = paste("An ABC-DS Plot:", xcol, "x", ycol)) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(
+      plot.title = ggplot2::element_text(
+        size = 24,
+        hjust = 0.5,
+        face = "bold"
+      ),
+      axis.title = ggplot2::element_text(size = 20, face = "bold"),
+      axis.text = ggplot2::element_text(size = 18),
+      legend.title = ggplot2::element_text(size = 18),
+      legend.text = ggplot2::element_text(size = 14)
+    )
+})
+
+output$table <- gt::render_gt({
+  shiny::validate(shiny::need(
+    length(input$variables) > 0,
+    message = "Add Variables on the Sidebar to Create a Table"
+  ))
+
+  data <- dplyr::select(data(), dplyr::all_of(input$variables))
+
+  if ("bmi" %in% colnames(data)) {
+    attr(data[["bmi"]], "label") <- "Body Mass Index"
+  }
+
+  gtsummary::tbl_summary(
+    data = data,
+    missing = "no",
+    statistic = gtsummary::all_continuous() ~ "{mean} ± {sd}",
+    digits = gtsummary::all_continuous() ~ 1
+  ) |>
+    gtsummary::as_gt()
+})
+
+```

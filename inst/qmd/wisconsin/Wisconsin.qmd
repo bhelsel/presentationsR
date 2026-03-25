@@ -1,0 +1,801 @@
+---
+title: "Extending R Beyond Analysis"
+subtitle: "Building Software to Support Brain Health and Down syndrome Research"
+author: 
+  "
+  <b>Brian C. Helsel, PhD</b><br>
+  Assistant Professor<br>
+  KU Alzheimer's Disease Research Center
+  "
+format: 
+  revealjs:
+    slide-number: true
+    theme: styles/custom.scss
+    embed-resources: true
+title-slide-attributes:
+  data-background-image: https://bhelsel.github.io/presentationsR/inst/qmd/martinlab/styles/slides/KUMCTitleSlide.jpg
+  data-background-size: "cover"
+date: last-modified
+date-format: long
+# server: shiny
+---
+
+## Quarto 
+
+This presentation was created using <a href="https://quarto.org/">Quarto</a>, 
+<span style="color: #8B4FA8; font-weight:bold;">an open-source scientific and technical publishing 
+system</span>. With Quarto, you can create publish reproducible reports, manuscripts, 
+and presentations; create websites, blogs, and dashboards; and publish books.
+
+## Download the Presentation
+
+**Install this presentation into RStudio as an R package**
+
+```{r install_github}
+#| echo: TRUE
+#| eval: FALSE
+
+# Install the presentationsR package
+options(timeout = 999999) # Increase to avoid timeout issues
+
+devtools::install_github("bhelsel/presentationsR")
+
+presentationsR::render_presentation(
+  outdir = "/full/path/to/folder",
+  name = "wisconsin"
+)
+```
+
+
+## R as a Language: More Than Just Stats
+
+::: {.highlight-box}
+**R is described as a programming language and environment for statistical computing and graphics.**
+:::
+
+Teaching **R for Statistical Analysis** often focuses on running models, writing scripts, and producing results. What it does not emphasize:
+
+- Building reusable tools
+- Scaling analyses across studies and datasets
+- Designing creative, user-facing solutions
+
+## Why This Matters: From Data to Impact
+
+Better tools &rarr; <span style="color:blue;">Better science</span> &rarr; Greater impact
+
+| Current Reality                       | Research Software Standards                    | 
+|---------------------------------------|------------------------------------------------|
+| Complex, high-dimensional datasets    |    Findable: Data and tools are easy to locate |
+| Multiple sites and team members       |    Accessible: Others can actually use them    |
+| Hard-to-reproduce workflows           | Interoperable: Work across systems and studies |
+| Analyses that live in one-off scripts |       Reusable: Extend beyond a single project |
+
+## What is Research Software?
+
+Software, code, scripts, or algorithms created or used to generate, process, analyze, or 
+visualize data for research.
+
+**In practice**
+
+- Reusable functions  
+- Reproducible reports (Quarto)  
+- Shared packages  
+- Simple interactive apps  
+
+::: {.tip-box}
+&#128161; **Build once. Use many times. Share with others.**
+:::
+
+## Brain Health and Down Syndrome Research
+
+How can software support brain health and Down syndrome research?
+
+::: {.highlight-box}
+
+**Software turns complex data into usable, scalable, and shareable research tools**
+
+:::
+
+| Key Opportunities                      | What this Can Look Like                                |
+|----------------------------------------|--------------------------------------------------------|
+|Make complex datasets easier to use     | Build functions to read, clean, and structure datasets |
+|Automating repetitive workflows         | Generate participant feedback reports automatically    |
+|Improving data quality and consistency  | Validate calculated fields and workflows               |
+|Facilitate data exploration             | Create interactive consoles and Shiny apps             |
+
+## Reusable Functions: A Brief Introduction
+
+Functions include three components: arguments, body, and environment.
+
+- The arguments or `formals()` control parts of the function
+- The `body()` is the code inside the function
+- The `environment()` contains values associated with the names.
+
+
+```{r}
+#| echo: true
+#| eval: false
+
+formals(sd)
+#> $x
+#>
+#>
+#> $na.rm
+#> [1] FALSE
+
+body(sd)
+#> sqrt(var(if (is.vector(x) || is.factor(x)) x else as.double(x),
+#>     na.rm = na.rm))
+
+environment(sd)
+#> <environment: namespace:stats>
+
+```
+
+
+## Function Forms
+
+There are four varieties of functions in R: 
+
+```{r}
+#| eval: false
+#| echo: true
+
+x <- 1:5
+
+# Prefix: Name comes before its arguments
+print(x)
+#> [1] 1 2 3 4 5
+
+# Infix: Name comes in between its arguments
+x * 2
+#> [1] 2 4 6 8 10
+
+# Replacement: Function replaces values by assignment
+names(x) <- letters[1:5]
+#> a b c d e
+#> 1 2 3 4 5
+
+# Special: Functions like `[[`, if, and for
+x[[2]]
+#> [1] 2
+
+```
+
+## Functions Can Range in Complexity
+
+```{r}
+#| eval: false
+#| echo: true
+
+to_snake_case <- function(x) {
+  tolower(gsub("([a-z])([A-Z])", "\\1_\\L\\2", x, perl = TRUE))
+}
+
+to_snake_case("FirstName")
+#> [1] "first_name"
+
+REDirect::export_reports(
+  "spartans",
+  report_id = 71424,
+  format = "csv",
+  rawOrLabel = "raw"
+)
+
+#> A tibble: 27 × 9
+#>    record_id   age gender race___1 race___2 race___3 race___4 race___5 ethnicity
+#>        <int> <int>  <int>    <int>    <int>    <int>    <int>    <int>     <int>
+#>  1      1001    22      2        0        0        0        0        1         0
+#>  2      1002    22      1        0        0        0        0        1         0
+#>  3      1003    20      2        0        0        0        0        1         0
+#>  4      1004    28      2        0        0        0        0        1         0
+#>  5      1005    30      2        0        0        0        0        1         0
+
+```
+
+## Calling Functions Inside Functions
+
+```{r}
+#| eval: false
+#| echo: true
+
+export_reports <- function(
+  study,
+  report_id,
+  format = c("csv", "json"),
+  rawOrLabel = c("raw", "label")
+) {
+  format <- match.arg(format)
+  rawOrLabel = match.arg(rawOrLabel)
+  rawOrLabelHeaders = match.arg(rawOrLabelHeaders)
+  auth <- get_token(study)
+  request <- httr2::request(auth$server) %>%
+    httr2::req_body_form(
+      token = auth$token,
+      content = "report",
+      format = format,
+      report_id = report_id,
+      rawOrLabel = rawOrLabel
+    ) %>%
+    httr2::req_perform()
+  class(request) <- c("httr2_response", paste0("redcap_", format))
+  return(as.data.frame(request))
+}
+
+```
+
+## Object-Oriented Programming (OOP)
+
+The same function can work differently depending on object type. 
+For example, `summary` is an S3 generic that gives counts for
+factors and descriptive statistics for numeric variables.
+
+```{r}
+#| echo: true
+#| eval: false
+
+demographics <-
+  atriReporter::get_demographics(
+    de_gender,
+    site = "KUMC",
+    apply_labels = TRUE
+  ) |>
+  atriReporter::calculate_age_at_visit()
+
+summary(demographics[, c("de_gender", "age_at_visit")])
+
+#> de_gender    age_at_visit
+#>  Male  :44   Min.   :25.00
+#>  Female:57   1st Qu.:31.00
+#>  Other : 0   Median :39.00
+#>              Mean   :39.07
+#>              3rd Qu.:44.00
+#>              Max.   :68.00
+
+```
+
+## Creating Your Own Class and Defining a Method
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: 1-2|4-10|12|14-22
+
+class(demographics)
+#> [1] "abcds_df" "tbl_df" "tbl" "data.frame"
+
+# This excludes identifiers and prints the observations per site.
+summary.abcds_df <- function(x, ...) {
+  ids <- atriReporter:::get_ids(x)
+  print(summary.data.frame(x[, -which(colnames(x) %in% ids)]))
+  counts <- table(x$site_label)
+  purrr::iwalk(counts, ~ cat(sprintf("\n%s: N = %d\n", .y, .x)))
+}
+
+summary(demographics)
+
+#> de_gender    age_at_visit
+#>  Male  :44   Min.   :25.00
+#>  Female:57   1st Qu.:31.00
+#>  Other : 0   Median :39.00
+#>              Mean   :39.07
+#>              3rd Qu.:44.00
+#>              Max.   :68.00
+
+#>  University of Kansas Medical Center: N = 29
+
+```
+
+## Case Study #1: Make Datasets Easier to Use
+
+A function factory is a function that makes functions.
+
+```{r}
+#| eval: false
+#| echo: true
+
+new_abcds_reader <- function(
+  pattern,
+  include_demographics = TRUE
+) {
+  force(pattern)
+  force(include_demographics)
+
+  function(
+    directory = NULL,
+    controls = FALSE,
+    add_demographics = include_demographics
+  ) {
+    # Code Here
+  }
+}
+
+read_neuro_exam <- new_abcds_reader("Physical_and_Neurological")
+read_consensus <- new_abcds_reader("Consensus")
+
+```
+
+
+## Using function factories for reading and cleaning tasks
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: 1-12|5-8|14|15-20
+
+read_athropometrics <- abcds:::new_abcds_reader(
+  pattern = "Physical_and_Neurological",
+  .f = function(data) {
+    demovars <- c("age_at_event", "de_gender", "de_race", "de_ethnicity")
+    data <- tidyr::fill(data, ht, htu, .direction = "down")
+    data$ht <- ifelse(data$htu == 1, data$ht * 2.54, data$ht)
+    data$wt <- ifelse(data$wtu == 1, data$wt / 2.205, data$wt)
+    data$bmi <- data$wt / (data$ht / 100)^2
+    demovars <- demovars[demovars %in% names(data)]
+    data[, c("subject_label", "event_sequence", demovars, "ht", "wt", "bmi")]
+  }
+)
+
+str(read_athropometrics(add_demographics = FALSE))
+#> tibble [1,455 × 5] (S3: tbl_df/tbl/data.frame)
+#>  $ subject_label : num [1:1455] 10001 10001 10001 10001 10002 ...
+#>  $ event_sequence: num [1:1455] 1 2 3 4 1 1 2 3 1 2 ...
+#>  $ ht            : num [1:1455] 155 155 155 155 142 ...
+#>  $ wt            : num [1:1455] 60.4 59 57.4 63.6 51.7 ...
+#>  $ bmi           : num [1:1455] 25.2 24.6 23.9 26.5 25.6 ...
+
+```
+
+## Loop through a data dictionary and apply labels
+
+::: {.columns}
+
+::: {.column width="60%"}
+
+
+```{r}
+#| echo: true
+#| eval: true
+#| code-line-numbers: 1-4|9|11
+
+# for (i in names(data)) {
+#  attr(data[[i]], "label") <-
+#    dict$label[which(dict$variable == i)]
+#  }
+
+demoTbl <-
+  abcds::read_demographics() |>
+  dplyr::select(de_ethnicity, de_gender) |>
+  abcds::apply_labels(add_factor_labels = TRUE) |>
+  dplyr::mutate(de_gender = droplevels(de_gender)) |>
+  gtsummary::tbl_summary(by = de_gender) |>
+  gtsummary::as_flex_table()
+
+```
+
+:::
+::: {.column width="40%"}
+
+```{r}
+#| echo: false
+#| eval: true
+
+flextable::width(demoTbl, j = 1, width = 2.25)
+
+```
+
+:::
+:::
+
+## Case Study #2: Automate Repetitive Workflows {.no-bg}
+
+::: {.columns}
+
+::: {.column width="35%"}
+
+<img src="https://bhelsel.github.io/presentationsR/inst/images/bridge21structure.png" width="80%"/>
+
+<div class="fragment" id = "highlightQuartoExtension1"></div>
+
+<div class="fragment" id = "highlightQuartoExtension2"></div>
+
+<div class="fragment" id = "highlightQuartoExtension3"></div>
+
+:::
+
+::: {.column width="65%"}
+
+<div style="height: 600px; overflow-y: auto;">
+
+```{r}
+#| echo: false
+#| eval: true
+#| results: asis
+
+path <- "https://github.com/bhelsel/presentationsR/raw/28216631ed19378eecc659ef72a861d64529e98e/inst/qmd/martinlab"
+
+for (i in 1:15) {
+  cat(
+    paste0(
+      '',
+      sprintf(
+        '<img src="%s/images/BRIDGE21/test_jayhawk_report%%20%s.png" width="100%%"/>',
+        path,
+        i
+      ),
+      ''
+    ),
+    sep = "\n"
+  )
+}
+
+```
+
+</div>
+
+:::
+
+:::
+
+## Generating the Disclosure Report
+
+::: {.columns}
+::: {.column}
+
+- Centralized report setup
+  - Uses a `generate_report` function to define study parameters and specify the report recipient
+- Dynamic report generation
+  - Builds sections that automatically include or exclude content based on available data
+- Connects to external systems to pull:
+  - Images from XNAT
+  - Data from ATRI and REDCap via APIs
+- Cross-study compatibility
+  - Uses `get_database_values` to standardize variable names across datasets of multiple studies
+  - Currently supports 4 studies, including ABC-DS and TRC-DS
+
+:::
+
+::: {.column}
+
+```{r}
+#| echo: true
+#| eval: false
+
+set.seed(123)
+bp <- data.frame(
+  vsbpsys = rnorm(10, 120, 5),
+  vsbpdia = rnorm(10, 80, 5)
+)
+
+bp_df <-
+  BRIDGE21::get_database_values(
+    "bpsys|bpsysl1|vsbpsys",
+    "bpdias|bpdiasl1|bpdia|vsbpdia",
+    data = bp
+  )
+
+names(bp_df)
+#> [1] "bpsys" "bpdias"
+
+```
+
+:::
+:::
+
+::: notes
+
+Images from XNAT: with a built-in Shiny app to help with image selection
+Can generate 100 disclosure reports in about 5 minutes
+
+:::
+  
+## Automating the Disclosure Reports
+
+::: {.columns}
+
+::: {.column}
+
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: 1|3-4|6-7|9-10|12-20
+
+# Script to generate disclosure reports
+
+# Retrieve disclosure data from ATRI API
+df <- atriReporter::get_disclosure("trcds")
+
+# Write the data to a temporary location
+readr::write_csv(df, '/path/to/data.csv')
+
+# Optional filter can limit participants
+ids <- unique(df$subject_label)
+
+# Run the report for each new participant
+for (id in ids) {
+  BRIDGE21::generate_report(
+    trcds,
+    id = i,
+    datafile = '/path/to/data.csv',
+    outputdir = '/path/to/write/report.pdf'
+  )
+}
+
+```  
+
+:::
+
+::: {.column}
+
+```{r cron}
+#| echo: TRUE
+#| eval: FALSE
+#| code-line-numbers: 1|2-5|7-14|16-17|19-20
+
+# Adding a Cron job to automate the script
+
+cmd <- cronR::cron_rscript(
+  "pathname/to/script.R",
+  log_append = FALSE
+)
+
+cronR::cron_add(
+  command = cmd,
+  frequency = '0 12 * * 5', # 12 pm Friday
+  id = 'trcdsDisclosureReport',
+  user = "username",
+  description = 'Update TRC-DS Disclosures'
+)
+
+# List cron jobs
+cronR::cron_ls("trcdsDisclosureReport")
+
+# Remove cron job
+cronR::cron_rm('trcdsDisclosureReport')
+
+```
+
+:::
+
+:::
+
+
+::: notes
+
+Once you have a script set up to extract data from the participants in your clinical trial, you can automate this process using a package called `cronR`. This can also be accomplished on a Windows computer using the `taskscheduleR` R package. Here I set up the script.R file to run every 12 pm on Friday. Within the script, you may also wish to upload the reports to the cloud for easy access or send the reports via email to the research team. For the TRC-DS disclosure reports, we are pushing the reports back to ATRI through their API.
+
+:::
+
+## Fitbit Reports {.no-bg}
+
+<iframe src="https://bhelsel.github.io/presentationsR/inst/qmd/wearables/html/FitbitExampleReport.html" width="100%" height="600px" data-external="1"></iframe>
+
+
+## Case Study #3: Improving data quality and consistency
+
+::: {.highlight-box}
+
+Data validation is the process of checking data accuracy before an analysis or report.
+
+:::
+
+- Built-in data validation is powerful and can help ensure values are within expected ranges and that calculated fields are correct
+- Metaprogramming in R with tidy evaluation can dynamically evaluate equations as expressions across datasets
+
+## Checking Mental Status Exam Equations
+
+|Variables   |Equations                                               |
+|-----------|---------------------------------------------------------|
+|colmemscr	| colshbx + dsme1                                         |
+|nonmemory	| dspi1 + dsap1 + dsla2 + dsvs1 + dske1                   |
+|dsmse_to2	| dspi1 + dsme1 + dsap1 + dsla2 + dsvs1 + dske1           |
+|dsto2	    | dspi1 + colshbx + dsme1 + dsap1 + dsla2 + dsvs1 + dske1 |
+
+## Splitting, Retrieving, and Evaluating the Equations
+
+```{r}
+#| echo: false
+#| eval: false
+
+Variables <- c("colmemscr", "nonmemory", "dsmse_to2", "dsto2")
+
+Equations <- c(
+  "colshbx + dsme1",
+  "dspi1 + dsap1 + dsla2 + dsvs1 + dske1",
+  "dspi1 + dsme1 + dsap1 + dsla2 + dsvs1 + dske1",
+  "dspi1 + colshbx + dsme1 + dsap1 + dsla2 + dsvs1 + dske1"
+)
+
+```
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: 1-2|4|6-19|8|9|10-18
+
+EquationVariables <- unlist(strsplit(Equations, "\\s* \\+ \\s*"))
+AllVariables <- unique(c(Variables, EquationVariables))
+
+df <- atriReporter::get_cognition(!!!AllVariables, task = "dsmse")
+
+purrr::map2(Variables, Equations, .f = function(.x, .y) {
+  current_values <- data[[.x]]
+  expected_values <- rlang::eval_tidy(rlang::parse_expr(.y), data = data)
+  checks <- current_values == expected_values
+  if (any(!checks, na.rm = TRUE)) {
+    indx <- which(!checks & !is.na(checks))
+    result <- data[indx, c("subject_label", "site_initials", "event_code")]
+    result$Variable <- .x
+    result$Equation <- .y
+    result$atri <- data[indx, .x, drop = TRUE]
+    result$expected <- expected_values[indx]
+    return(result)
+  }
+})
+
+```
+
+
+## Complex Lookup Tables
+
+Calculate KBIT-2 Scores for Participants using `calculate_kbit2_score` from atriReporter
+
+::: {.columns}
+
+::: {.column width="48%"}
+
+```{r}
+#| echo: true
+#| eval: false
+
+kbit2_single <-
+  calculate_kbit2_score(
+    age_at_visit = 50,
+    kbit2verbkraw = 30,
+    kbit2ridraw = 25,
+    kbit2vnonvraw = 17,
+    subject_label = 1
+  )
+
+str(kbit2_single)
+#> tibble [1 × 18]
+#>  $ age_at_visit   : num 50
+#>  $ kbit2verbkraw  : num 30
+#>  $ kbit2ridraw    : num 25
+#>  $ kbit2vnonvraw  : num 17
+#>  $ kbit2verbraw   : num 55
+#>  $ kbit2verbstd   : num 66
+#>  $ kbit2nonvbstd  : num 59
+#>  $ kbit2iqcompstd : num 61
+
+```
+
+
+:::
+::: {.column width="52%"}
+
+```{r}
+#| echo: true
+#| eval: false
+
+kbit2_multiple <-
+  calculate_kbit2_score(
+    age_at_visit = c(50, 60, 35),
+    kbit2verbkraw = c(30, 28, 34),
+    kbit2ridraw = c(25, 22, 26),
+    kbit2vnonvraw = c(17, 24, 18),
+    subject_label = c(1, 2, 3)
+  )
+
+str(kbit2_multiple)
+#> tibble [4 × 19]
+#>  $ age_at_visit   : num [1:4] 50 60 35
+#>  $ kbit2verbkraw  : num [1:4] 30 28 34
+#>  $ kbit2ridraw    : num [1:4] 25 22 26
+#>  $ kbit2vnonvraw  : num [1:4] 17 24 18
+#>  $ kbit2verbraw   : num [1:4] 55 50 60
+#>  $ kbit2verbstd   : num [1:4] 66 64 69
+#>  $ kbit2nonvbstd  : num [1:4] 59 81 57
+#>  $ kbit2iqcompstd : num [1:4] 61 72 58
+
+```
+
+:::
+
+:::
+
+## Case Study #4: Facilitate data exploration
+
+<img src="https://bhelsel.github.io/presentationsR/inst/images/abcdsShinyPlot.png" width="80%"/>
+
+<!-- 
+To render this Quarto document with the shiny plot, the abcds
+package must be installed and data from LONI downloaded to the
+user's computer. The Quarto document then must be rendered to
+local host rather than opening the static html file and 
+server must be set to shiny in the yaml. A static image of
+the shiny app are displayed in place of the abcdsShinyPlot.qmd file
+--->
+
+<!-- {{< include abcdsShinyPlot.qmd >}} -->
+
+## Quarto + Shiny {.shiny-slide}
+
+::: {.columns}
+
+::: {.column width="100%"}
+
+### Reactive apps embedded in reproducible documents or hosted on servers {.section-label}
+
+::: {.benefits-grid}
+
+::: {.benefit-card}
+**Fully Reactive**  
+Inputs update outputs in real time without needing to reload the page.
+:::
+
+::: {.benefit-card}
+**UI & Server in One Place**  
+The layout of the app and all its features can be added to a single app.R file or separated into modules.
+:::
+
+::: {.benefit-card}
+**Rich Input Library**  
+No JavaScript is required. Sliders, dropdowns, file uploads, and action buttons are all built-in features.
+:::
+
+::: {.benefit-card}
+**Custom Styling**  
+Use themes or custom CSS to get a consistent look across inputs, outputs, and layout with minimal configuration
+:::
+
+::: {.benefit-card}
+**Flexible delivery**  
+Host on Posit Connect or shinyapps.io, embed in a Quarto document, or in some cases deliver as a fully static page
+:::
+
+::: {.benefit-card}
+**Scales with your needs**  
+Create a single interactive plot or a full dashboard or app
+:::
+
+:::
+
+:::
+
+:::
+
+## Interactive Data Exploration {.no-bg}
+
+<video data-autoplay controls="controls" width="900" height="500" name="Interactive Console">
+  <source src="https://bhelsel.github.io/presentationsR/inst/videos/InteractiveConsole.mp4">
+</video>
+
+## Conclusions
+
+*R is often taught as a tool for statistical analysis, but it has broader value in building research software*
+
+- Learning R can help you develop practical, career-advancing skills
+- Rethinking how you use R can inspire collaboration, ehance innovation, and have a meaningful impact on brain health and Down syndrome research
+
+
+## Invitation {.no-bg}
+
+<div class="repos">
+  <a href="https://github.com/bhelsel/RLAB" target="_blank">
+  <img src="https://bhelsel.github.io/presentationsR/inst/qmd/martinlab/images/RLAB.png" width="80%"/>
+  </a>
+</div>
+
+
+
+::: {.notes}
+
+We started a special interest group called RLAB (R for Lifestyle and Brain Health) for 
+those interested in learning more. Attendees progress through the R for Data Science and
+Advanced R books while exploring the intricacies of the language and learning about
+reproducible reporting, package development, and Shiny app integration. 
+
+:::
+

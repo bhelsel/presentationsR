@@ -1,0 +1,223 @@
+/*-- scss:defaults --*/
+
+// fonts
+$font-family-sans-serif: "Arial" !default;
+$presentation-font-size-root: 35px;
+
+// headings
+$presentation-heading-font: "Arial" !default;
+$presentation-heading-color: #000000 !default;
+$presentation-h2-font-size: 1.1em !default;
+
+// colors
+$body-bg: #fff !default;
+$body-color: #000 !default;
+$link-color: #0051ba !default;
+$selection-bg: #ff5e99 !default;
+$input-panel-bg: rgba(233, 236, 239, 0.2) !default;
+
+/*-- scss:rules --*/
+
+li, p {
+  font-size: 0.75em;
+}
+
+#title-slide h1{
+  font-size: 0.85em;
+}
+
+#title-slide .quarto-title-author-name {
+  font-size: 0.8em;
+  padding-top: 50px;
+}
+
+#title-slide .quarto-title-affiliation {
+  font-size: 0.8em;
+  padding-top: 15px;
+}
+
+.slide-background-content{
+  background-image: url('https://bhelsel.github.io/presentationsR/inst/qmd/martinlab/styles/slides/KUMCTitleContent.jpg');
+  background-size: 100% 100%;
+}
+
+.highlight-box {
+  background: rgba(31, 71, 136, 0.05);
+  border: 1px solid rgba(31, 71, 136, 0.2);
+  border-radius: 6px;
+  padding: 1.2em;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin: 0.8em 0;
+  font-size: 0.9em;
+}
+
+.tip-box {
+  background: rgba(156, 39, 176, 0.12);
+  border-left: 4px solid #9c27b0;
+  padding: 1em 1.2em;
+  margin: 0.8em 0;
+  font-size: 0.9em;
+  border-radius: 0 6px 6px 0;
+}
+
+.sourceCode {
+  border-left: 4px solid #1f4788;
+  font-size: 0.9em;
+}
+
+// Tables
+.reveal table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(31, 71, 136, 0.15);
+}
+
+.reveal table th {
+  background: #1f4788;
+  color: white;
+  font-weight: 600;
+  padding: 0.8em 1em;
+  text-align: left;
+}
+
+.reveal table td {
+  padding: 0.7em 1em;
+  border-bottom: 1px solid rgba(31, 71, 136, 0.08);
+}
+
+.reveal table tr:nth-child(even) {
+  background: rgba(31, 71, 136, 0.02);
+}
+
+.reveal table {
+  width: 100%;
+  font-size: 0.6em;
+  margin: 0.5em 0;
+}
+
+#case-study-1-make-datasets-easier-to-use-with-function-factories h2 {
+  font-size: 0.9em;
+}
+
+.no-bg .slide-background-content {
+  background-image: none !important;
+  background-color: #DDE6ED !important;
+}
+
+.shiny-output-error-validation {
+  font-size: 0.6em;
+}
+
+.no-bg-white .slide-background-content {
+  background-image: none !important;
+  background-color: #FFFFFF !important;
+}
+
+#highlightQuartoExtension1 {
+  width: 210px; 
+  height: 15px; 
+  border: 2px solid #2E5FA3; 
+  position: absolute; 
+  left: 31px; 
+  bottom: 600px;
+}
+
+#highlightQuartoExtension2 {
+  width: 210px; 
+  height: 152px; 
+  border: 2px solid #8B4FA8; 
+  position: absolute; 
+  left: 31px; 
+  bottom: 446px;
+}
+
+#highlightQuartoExtension3 {
+  width: 210px; 
+  height: 408px; 
+  border: 2px solid #2A9D8F; 
+  position: absolute; 
+  left: 31px; 
+  bottom: 36px;
+}
+
+.reveal .layout-sidebar .panel-sidebar {
+  background-color: #DDE6ED;
+}
+
+// Shiny Slide
+
+.shiny-slide .benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.shiny-slide .benefit-card {
+  background: #DDE6ED;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.6em;
+  line-height: 1.5;
+}
+
+.shiny-slide .hosting-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.shiny-slide .host-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.shiny-slide .section-label {
+  font-size: 0.5em !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888;
+  margin-bottom: 0.5rem !important;
+}
+
+#interactive-data-exploration > video{
+  border-radius: 12px;
+  padding: 4px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.25);
+  transition: all 0.3s ease;
+  max-width: 100%;
+  height: auto;
+  border: 3px solid white;
+  background-clip: padding-box;
+}
+
+.repos {
+  display: flex;
+  align-items: flex-start;  /* top alignment */
+  justify-content: center;  /* horizontal centering (optional) */
+  height: 100%;  /* ensures the container takes full height */
+}
+
+.repos img {
+  border-radius: 12px;
+  padding: 4px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.25);
+  transition: all 0.3s ease;
+  max-width: 100%;
+  height: auto;
+  border: 3px solid white;
+  background-clip: padding-box;
+}
+
+.repos img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.35);
+}
