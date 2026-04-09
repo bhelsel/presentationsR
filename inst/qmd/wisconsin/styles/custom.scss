@@ -198,6 +198,15 @@ li, p {
   background-clip: padding-box;
 }
 
+#about-me > img{
+  border-radius: 12px;
+  padding: 4px;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.25);
+  width: 100%;
+  height: auto;
+  border: 3px solid #667eea;
+}
+
 .repos {
   display: flex;
   align-items: flex-start;  /* top alignment */

@@ -20,6 +20,63 @@ date-format: long
 # server: shiny
 ---
 
+## About Me {.no-bg}
+
+<img src="https://bhelsel.github.io/presentationsR/inst/images/mypath.png"/>
+
+Brain Power (R01AG063909) | <strong>K01AG083130</strong> | ABC-DS Study (U19AG068054)
+
+## Commonly Used R Tools {.shiny-slide}
+
+::: {.columns}
+
+::: {.column width="100%"}
+
+### How familiar are you with... {.section-label}
+
+::: {.benefits-grid}
+
+::: {.benefit-card}
+**R Studio and Positron**  
+Commonly used integrated development envrionments
+:::
+
+::: {.benefit-card}
+**R Markdown and Quarto**  
+Integrating code with text for reporting and presentations
+:::
+
+::: {.benefit-card}
+**Tidyverse**  
+A suite of libraries to make data processing easier (e.g., dplyr, readr, purrr, ggplot2)
+:::
+
+::: {.benefit-card}
+**Statistical Analysis**  
+Functions used for data analysis (e.g., lm, glm, lmer)
+:::
+
+::: {.benefit-card}
+**Reusability and Automation**  
+Writing Functions or Scripts to Automate Tasks
+:::
+
+::: {.benefit-card}
+**Shiny**  
+Fully reactive and scalable apps
+:::
+
+::: {.benefit-card}
+**Integration with Other Languages**  
+Calling functions from Python (e.g., reticulate) and C++ (e.g., Rcpp)
+:::
+
+:::
+
+:::
+
+:::
+
 ## Quarto 
 
 This presentation was created using <a href="https://quarto.org/">Quarto</a>, 
@@ -46,6 +103,7 @@ presentationsR::render_presentation(
 )
 ```
 
+<a href="https://bhelsel.github.io/presentationsR/inst/qmd/wisconsin/wisconsin.html">https://bhelsel.github.io/presentationsR/inst/qmd/wisconsin/wisconsin.html</a>
 
 ## R as a Language: More Than Just Stats
 
