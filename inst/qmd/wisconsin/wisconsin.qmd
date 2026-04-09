@@ -17,7 +17,7 @@ title-slide-attributes:
   data-background-size: "cover"
 date: last-modified
 date-format: long
-# server: shiny
+server: shiny
 ---
 
 ## Quarto 
@@ -707,7 +707,7 @@ str(kbit2_multiple)
 
 ## Case Study #4: Facilitate data exploration
 
-<img src="https://bhelsel.github.io/presentationsR/inst/images/abcdsShinyPlot.png" width="80%"/>
+<!-- <img src="https://bhelsel.github.io/presentationsR/inst/images/abcdsShinyPlot.png" width="80%"/> -->
 
 <!-- 
 To render this Quarto document with the shiny plot, the abcds
@@ -718,7 +718,7 @@ server must be set to shiny in the yaml. A static image of
 the shiny app are displayed in place of the abcdsShinyPlot.qmd file
 --->
 
-<!-- {{< include abcdsShinyPlot.qmd >}} -->
+{{< include abcdsShinyPlot.qmd >}}
 
 ## Quarto + Shiny {.shiny-slide}
 
