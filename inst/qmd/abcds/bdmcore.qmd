@@ -1,0 +1,626 @@
+---
+title: Longitudinal Data Analysis, Biomarker Harmonization Methods, and Data Access in the ABC-DS Study
+author: Biostatistics and Data Management Core
+date: May 19, 2026
+execute: 
+  warning: false
+  message: false
+format:
+  revealjs:
+    slide-number: true
+    theme: custom.scss
+    embed-resources: true
+    title-slide-attributes:
+      data-background-image: https://github.com/bhelsel/quarto-abcds/raw/main/_extensions/abcds/logos/ABCDSTitleSlide.jpg
+      data-background-size: "cover"
+# server: shiny
+---
+
+## Alzheimer's Biomarker Consortium - Down Syndrome
+
+<a href="https://reporter.nih.gov/search/BoVrb-8ivUGXg068aO906w/project-details/10264834" target="_blank">U19 AG068054</a>
+
+::: {layout="[[50, 50]]"}
+
+<div>
+<ul class="arrow-list">
+<li class="check-mark">Most comprehensive longitudinal research initiative to identify and track biomarkers for Alzheimer's disease in people with Down syndrome.</li>
+<li class="check-mark">Includes sites at the Universities of Pittsburgh, Wisconsin, Cambridge, Kentucky, California Irvine, Kansas, Washington University in St. Louis, Columbia, Harvard, and Puerto Rico</li>
+</ul>
+</div>
+
+<div>
+<p><b>ABC-DS is supported by:</b></p>
+<ul class="arrow-list">
+<li class="arrow-right">National Institute on Aging (NIA)</li>
+<li class="arrow-right">National Institute of Child Health and Human Development (NICHD)</li>
+<li class="arrow-right">INvestigation of Co-occurring conditions across the Lifespan to Understand Down syndromE (INCLUDE) project.</li>
+</ul>
+
+</div>
+
+:::
+
+## Cores
+
+<img src="https://bhelsel.github.io/presentationsR/inst/images/abcdsCores.png" width="90%" height="auto"/>
+
+## Core Leads
+ 
+::: {.columns}
+
+::: {.column width="33%"}
+
+<img src="https://www.publichealth.columbia.edu/sites/default/files/styles/cola_media_520/public/cups-profile/headshot/5247c0f0-e3a3-11ea-b94c-313f6b4d624c.jpg?itok=cKhIcKZd"/>
+
+Howard Andrews, PhD
+
+:::
+
+::: {.column width="33%"}
+
+<img src="https://www.psychiatry.pitt.edu/sites/default/files/styles/faculty_headshot/public/2021-08/TudorascuDana.png?itok=p1xW_qOH"/>
+
+Dana Tudorascu, PhD
+
+:::
+
+::: {.column width="33%"}
+
+<img src="https://media.licdn.com/dms/image/v2/D4E03AQG31k6hp8Tu6g/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1649423725043?e=1779926400&v=beta&t=-QDDNdeTUcVjiG69WztnUrf7hZFifVj0cP0W58RcZy8"/>
+
+Brian Helsel, PhD
+
+:::
+
+:::
+
+## Agenda
+
+- The ABC-DS BDM Core: Where We Started & Where We’re Going
+- Speaking the Same Language: U01/U19 Harmonization in Practice
+- Unlocking the Data: Navigating LONI with Confidence
+- What the BDM Core Can Do for You: Tools, Support, and Collaboration
+- From Data to Insight: A Practical Introduction to Longitudinal Modeling
+
+## Origins of the ABC-DS Study
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+<b>ADDS: Alzheimer's Disease Down Syndrome</b> (U01AG051412)
+
+- New York, NY (Columbia University/New York State Institute for Basic Research in Developmental Disabilities);
+- Boston, MA (Massachusetts General Hospital, Harvard University);
+- Irvine, CA (University of California, Irvine)
+
+:::
+
+::: {.column width="50%"}
+
+<b>NiAD: Neurodegeneration in Aging Down Syndrome</b> (U01AG051406)
+
+- Pittsburgh, PA (University of Pittsburgh);
+- Madison, WI (University of Wisconsin);
+- St. Louis, MO (Washington University);
+- Cambridge, England (University of Cambridge)
+
+:::
+
+::::
+
+## Data Harmonization 
+
+Howard's Slides
+
+
+
+## ABC-DS Request Form
+
+
+::: {.columns}
+
+::: {.column}
+
+<p>Submit a data request via Qualtrics survey:</p>
+
+<ul class="arrow-list">
+<li class="check-mark">Title, Hypothesis, and Research Question</li>
+<li class="check-mark">Brief Background and Rationale </li>
+<li class="check-mark">Predictors, Outcomes, & Covariates</li>
+<li class="check-mark">Analysis & Statsitical Plan</li>
+</ul>
+
+The ABC-DS publication committee meets monthly to evaluate the requests to
+ensure scientific rigor and non-overlapping interests.
+
+
+:::
+
+::: {.column}
+
+<div class="custom-image">
+  <a href="https://pitt.co1.qualtrics.com/jfe/form/SV_cu0pNCZZlrdSxUN" target="blank">
+    <img src="https://bhelsel.github.io/presentationsR/inst/images/abcdsRequestForm.png" width="80%" height="auto"/>
+  </a>
+</div>
+
+
+:::
+
+:::
+
+## LONI Data Access {.no-bg}
+
+::: {.r-stack}
+
+<div class="custom-image">
+  <a href="https://ida.loni.usc.edu" target="blank">
+    <img src="https://bhelsel.github.io/presentationsR/inst/images/loniHomePage.png" width="80%" height="auto"/>
+  </a>
+</div>
+
+<div class="fragment custom-image">
+  <img src="https://bhelsel.github.io/presentationsR/inst/images/abcdsLoniLandingPage.png" width=90%" height="auto"/>
+</div>
+
+<div class="fragment custom-image">
+  <img src="https://bhelsel.github.io/presentationsR/inst/images/abcdsLoniDownloadPage.png" width="90%" height="auto"/>  
+</div>
+
+:::
+
+## ABC-DS Measures
+
+<img src="https://bhelsel.github.io/presentationsR/inst/images/abcdsMeasures.png" width="100%" height="auto"/>
+
+## Study Data Files
+
+```{r study files, ft.align = "left"}
+all_files <- list.files(
+  Sys.getenv("ABCDS_LONI_DATA_DIRECTORY"),
+  pattern = ".csv$",
+  full.names = TRUE
+)
+toRemove <- "Controls|biospecimen|Codebook|Dictionary|Followup|Safety_labs|Study_Partner|MRI_Scan|omics|Brickman"
+participant_files <- all_files[!grepl(toRemove, all_files)]
+
+done_vars <- c(
+  "Sample_Collection_-_Blood_19Feb2026.csv" = "paxdone",
+  "Tau_PET_Scan_Information_19Feb2026.csv" = "tau_done",
+  "Amyloid_PET_Scan_Information_19Feb2026.csv" = "amy_done"
+)
+
+
+count_subjects <- function(x) {
+  if (basename(x) %in% names(done_vars)) {
+    done <- rlang::sym(unname(done_vars[basename(x)]))
+    vars <- c("subject_label", as.character(done))
+  } else {
+    vars <- "subject_label"
+  }
+  # fmt: skip
+  subjects <- readr::read_csv(x, col_select = dplyr::all_of(vars), show_col_types = FALSE)
+  if (ncol(subjects) > 1) {
+    subjects <- dplyr::pull(dplyr::filter(subjects, !!done == 1), subject_label)
+    table(table(subjects))
+  } else {
+    table(table(subjects[, 1, drop = TRUE]))
+  }
+}
+
+clean_file_names <- function(files) {
+  basename_files <- basename(files)
+  bf_no_csv <- gsub("_19Feb2026.csv$|.csv$", "", basename_files)
+  bf_add_spaces <- strsplit(bf_no_csv, split = "_")
+  purrr::map_chr(bf_add_spaces, ~ paste(.x[1:(length(.x))], collapse = " "))
+}
+
+main_df <-
+  purrr::map(
+    participant_files,
+    ~ {
+      counts <- as.data.frame(count_subjects(.x))
+      tidyr::pivot_wider(
+        counts,
+        names_from = Var1,
+        values_from = Freq,
+        names_prefix = "Observation "
+      )
+    }
+  ) |>
+  dplyr::bind_rows() |>
+  dplyr::mutate(
+    file = clean_file_names(participant_files),
+    dplyr::across(dplyr::contains("Observation"), ~ ifelse(is.na(.x), 0, .x)),
+    .before = 1
+  )
+
+to_show <- c(
+  "Centiloid Analysis of PET Data",
+  "ApoE Genotyping Results",
+  "Cued Recall",
+  "Consensus",
+  "CSF Results",
+  "Down Syndrome Mental Status Exam",
+  "Health History",
+  "Physical and Neurological Exam",
+  "Sample Collection - Blood",
+  "Amyloid PET Scan Information",
+  "Tau PET Scan Information"
+)
+
+
+study_file_table <-
+  main_df |>
+  tibble::tibble() |>
+  dplyr::filter(file %in% to_show) |>
+  tidyr::pivot_longer(
+    cols = dplyr::starts_with("Observation"),
+    names_to = "observation",
+    values_to = "count"
+  ) |>
+  dplyr::arrange(file, desc(observation)) |>
+  dplyr::mutate(
+    cumulative = cumsum(count),
+    observation = paste0(gsub("Observation ", "", observation), "+"),
+    .by = file
+  ) |>
+  dplyr::select(-count) |>
+  tidyr::pivot_wider(names_from = "observation", values_from = cumulative) |>
+  dplyr::rename(File = file) |>
+  flextable::flextable() |>
+  flextable::width(j = 1, width = 3) |>
+  flextable::width(j = 2:6, width = 1.3) |>
+  flextable::align(j = 2:6, part = "all", align = "center") |>
+  flextable::bold(i = 1, part = "header") |>
+  flextable::add_header_row(
+    values = c("", "Number of Observations"),
+    colwidths = c(1, 6)
+  )
+
+study_file_table
+```
+
+## Consensus Transitions {.no-bg}
+
+<div class="custom-image">
+
+```{r alluvial plot}
+consensus <-
+  abcds::read_consensus() |>
+  abcds::apply_labels(add_factor_labels = TRUE)
+
+
+alluvial_plot <- consensus |>
+  dplyr::mutate(
+    change = consensus_dx != dplyr::lead(consensus_dx),
+    change = dplyr::if_else(change, "Change", "No Change", "No Change"),
+    .by = subject_label
+  ) |>
+  dplyr::filter(event_sequence < 6 & consensus_dx != "Unable to Determine") |>
+  dplyr::select(
+    subject_label,
+    event_sequence,
+    age_at_visit,
+    consensus_dx,
+    change
+  ) |>
+  ggplot2::ggplot(ggplot2::aes(
+    x = event_sequence,
+    stratum = consensus_dx,
+    alluvium = subject_label,
+    fill = consensus_dx
+  )) +
+  ggalluvial::geom_flow(
+    ggplot2::aes(alpha = change),
+    stat = "alluvium",
+    lode.guidance = "frontback"
+  ) +
+  ggalluvial::geom_stratum() +
+  ggplot2::scale_alpha_manual(
+    values = c("No Change" = 0.1, "Change" = 1),
+    guide = "none"
+  ) +
+  ggplot2::scale_x_continuous(breaks = seq(1, 6, 1)) +
+  ggplot2::scale_y_continuous(breaks = seq(0, 600, 100)) +
+  ggplot2::scale_fill_manual(values = c("#cf3a36", "#ea7428", "#0c7156")) +
+  ggplot2::labs(y = "Count") +
+  ggplot2::theme_classic() +
+  ggplot2::theme(
+    legend.position = "bottom",
+    legend.title = ggplot2::element_blank(),
+    axis.title.x = ggplot2::element_blank(),
+    axis.title.y = ggplot2::element_text(
+      size = 11,
+      face = "bold",
+      margin = ggplot2::margin(r = 15)
+    ),
+    axis.text.x = ggplot2::element_text(size = 11, face = "bold"),
+    axis.text.y = ggplot2::element_text(size = 11),
+    axis.ticks.x = ggplot2::element_blank(),
+    plot.margin = ggplot2::unit(c(1, 1, 1, 1), "cm"),
+    legend.text = ggplot2::element_text(size = 11)
+  ) +
+  ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE))
+
+alluvial_plot
+```
+
+</div>
+
+## An R Package for ABC-DS {.no-bg}
+
+<div class="custom-image">
+  <img src="https://bhelsel.github.io/presentationsR/inst/images/repositories/abcds.png" width="100%" height="auto"/>
+</div>
+
+## Set Up Your Data Directory One Time
+
+```{r}
+#| eval: false
+#| echo: true
+abcds:::check_abcds_directory()
+
+#' ──────────────────── Welcome to the ABCDS R Package! ───────────────────
+#' ╔════════════════════════════════════════════════════════════════════════╗
+#' ║ It looks like you have not set up your ABCDS data directory yet.       ║
+#' ║                                                                        ║
+#' ║ This directory should point to the folder on your computer where the   ║
+#' ║ ABCDS LONI data are stored (for example: '~/ABCDS/data').              ║
+#' ║                                                                        ║
+#' ║ Once selected, we will save this path to your user environment so that ║
+#' ║ you do not have to set it again each time you load the package.        ║
+#' ╚════════════════════════════════════════════════════════════════════════╝
+
+#' • To set this up now, run:
+#'   abcds::set_abcds_directory()
+#' • This will prompt you to choose a folder and store it in your .Renviron file.
+
+#' You can change it anytime by re-running the same function.
+
+abcds::set_abcds_directory()
+#' ───────────────────────── ABCDS Directory Setup ────────────────────────
+
+#' ℹ Please enter the full path to your ABCDS LONI directory.
+#' ℹ Example: ~/ABCDS/data or C:/Users/yourname/ABCDS
+#' >>> '/Users/bhelsel/Desktop/Data/ABCDS LONI DATA'
+#' ✔ Found expected LONI files!
+#' Would you like to save this path to your .Renviron? (y/n): y
+#' ✔ Saved ABCDS_LONI_DATA_DIRECTORY to your .Renviron file.
+#' ✔ ABCDS directory verified:
+#'   /Users/bhelsel/Desktop/Data/ABCDS LONI DATA
+#' ℹ Please restart R for the change to take effect.
+```
+
+## Function Factories
+
+A function factory is a function that makes functions.
+
+```{r}
+#| eval: false
+#| echo: true
+new_abcds_reader <- function(pattern, include_demographics = TRUE) {
+  force(pattern)
+  force(include_demographics)
+
+  function(
+    directory = NULL,
+    controls = FALSE,
+    add_demographics = include_demographics
+  ) {
+    # Code Here
+  }
+}
+
+read_neuro_exam <- new_abcds_reader("Physical_and_Neurological")
+read_consensus <- new_abcds_reader("Consensus")
+```
+
+## Data Processing with Function Factories
+
+```{r}
+#| echo: true
+#| eval: false
+read_athropometrics <- abcds:::new_abcds_reader(
+  pattern = "Physical_and_Neurological",
+  .f = function(data) {
+    data <- tidyr::fill(data, ht, htu, .direction = "down")
+    data$ht <- ifelse(data$htu == 1, data$ht * 2.54, data$ht)
+    data$wt <- ifelse(data$wtu == 1, data$wt / 2.205, data$wt)
+    data$bmi <- data$wt / (data$ht / 100)^2
+    data[, c("subject_label", "event_sequence", "ht", "wt", "bmi")]
+  }
+)
+str(read_athropometrics(add_demographics = FALSE))
+#> tibble [1,455 × 5] (S3: tbl_df/tbl/data.frame)
+#>  $ subject_label : num [1:1455] 10001 10001 10001 10001 10002 ...
+#>  $ event_sequence: num [1:1455] 1 2 3 4 1 1 2 3 1 2 ...
+#>  $ ht            : num [1:1455] 155 155 155 155 142 ...
+#>  $ wt            : num [1:1455] 60.4 59 57.4 63.6 51.7 ...
+#>  $ bmi           : num [1:1455] 25.2 24.6 23.9 26.5 25.6 ...
+```
+
+## Loop through a data dictionary and apply labels
+
+::: {.columns}
+
+::: {.column width="60%"}
+
+
+```{r}
+#| echo: true
+#| eval: true
+#| code-line-numbers: 1-4|9|11
+# for (i in names(data)) {
+#  attr(data[[i]], "label") <-
+#    dict$label[which(dict$variable == i)]
+#  }
+
+demoTbl <-
+  abcds::read_demographics() |>
+  dplyr::select(de_ethnicity, de_gender) |>
+  abcds::apply_labels(add_factor_labels = TRUE) |>
+  dplyr::mutate(de_gender = droplevels(de_gender)) |>
+  gtsummary::tbl_summary(by = de_gender) |>
+  gtsummary::as_flex_table()
+```
+
+:::
+::: {.column width="40%"}
+
+```{r}
+#| echo: false
+#| eval: true
+flextable::width(demoTbl, j = 1, width = 2.25)
+```
+
+:::
+:::
+
+## Improving data quality and consistency
+
+|Variables   |Equations                                               |
+|-----------|---------------------------------------------------------|
+|colmemscr	| colshbx + dsme1                                         |
+|nonmemory	| dspi1 + dsap1 + dsla2 + dsvs1 + dske1                   |
+|dsmse_to2	| dspi1 + dsme1 + dsap1 + dsla2 + dsvs1 + dske1           |
+|dsto2	    | dspi1 + colshbx + dsme1 + dsap1 + dsla2 + dsvs1 + dske1 |
+
+::: {.highlight-box}
+
+Metaprogramming in R with tidy evaluation can dynamically evaluate equations as expressions.
+
+:::
+
+## Retrieving and Evaluating the Equations
+
+```{r}
+#| echo: false
+#| eval: false
+Variables <- c("colmemscr", "nonmemory", "dsmse_to2", "dsto2")
+
+Equations <- c(
+  "colshbx + dsme1",
+  "dspi1 + dsap1 + dsla2 + dsvs1 + dske1",
+  "dspi1 + dsme1 + dsap1 + dsla2 + dsvs1 + dske1",
+  "dspi1 + colshbx + dsme1 + dsap1 + dsla2 + dsvs1 + dske1"
+)
+```
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-line-numbers: 1-2|4|6-19|8|9|10-18
+EquationVariables <- unlist(strsplit(Equations, "\\s* \\+ \\s*"))
+AllVariables <- unique(c(Variables, EquationVariables))
+
+df <- atriReporter::get_cognition(!!!AllVariables, task = "dsmse")
+
+purrr::map2(Variables, Equations, .f = function(.x, .y) {
+  current_values <- data[[.x]]
+  expected_values <- rlang::eval_tidy(rlang::parse_expr(.y), data = data)
+  checks <- current_values == expected_values
+  if (any(!checks, na.rm = TRUE)) {
+    indx <- which(!checks & !is.na(checks))
+    result <- data[indx, c("subject_label", "site_initials", "event_code")]
+    result$Variable <- .x
+    result$Equation <- .y
+    result$atri <- data[indx, .x, drop = TRUE]
+    result$expected <- expected_values[indx]
+    return(result)
+  }
+})
+```
+
+
+## Complex Lookup Tables
+
+Calculate KBIT-2 Scores for Participants
+
+::: {.columns}
+
+::: {.column width="48%"}
+
+```{r}
+#| echo: true
+#| eval: false
+kbit2_single <-
+  calculate_kbit2_score(
+    age_at_visit = 50,
+    kbit2verbkraw = 30,
+    kbit2ridraw = 25,
+    kbit2vnonvraw = 17,
+    subject_label = 1
+  )
+str(kbit2_single)
+#> tibble [1 × 18]
+#>  $ age_at_visit   : num 50
+#>  $ kbit2verbkraw  : num 30
+#>  $ kbit2ridraw    : num 25
+#>  $ kbit2vnonvraw  : num 17
+#>  $ kbit2verbraw   : num 55
+#>  $ kbit2verbstd   : num 66
+#>  $ kbit2nonvbstd  : num 59
+#>  $ kbit2iqcompstd : num 61
+```
+
+
+:::
+::: {.column width="52%"}
+
+```{r}
+#| echo: true
+#| eval: false
+kbit2_multiple <-
+  calculate_kbit2_score(
+    age_at_visit = c(50, 60, 35),
+    kbit2verbkraw = c(30, 28, 34),
+    kbit2ridraw = c(25, 22, 26),
+    kbit2vnonvraw = c(17, 24, 18),
+    subject_label = c(1, 2, 3)
+  )
+str(kbit2_multiple)
+#> tibble [4 × 19]
+#>  $ age_at_visit   : num [1:4] 50 60 35
+#>  $ kbit2verbkraw  : num [1:4] 30 28 34
+#>  $ kbit2ridraw    : num [1:4] 25 22 26
+#>  $ kbit2vnonvraw  : num [1:4] 17 24 18
+#>  $ kbit2verbraw   : num [1:4] 55 50 60
+#>  $ kbit2verbstd   : num [1:4] 66 64 69
+#>  $ kbit2nonvbstd  : num [1:4] 59 81 57
+#>  $ kbit2iqcompstd : num [1:4] 61 72 58
+```
+
+:::
+
+:::
+
+## Facilitating Data Exploration
+
+<div class="custom-image">
+  <img src="https://bhelsel.github.io/presentationsR/inst/images/abcdsShinyPlot.png" width="80%"/>
+</div>
+
+<!-- 
+To render this Quarto document with the shiny plot, the abcds
+package must be installed and data from LONI downloaded to the
+user's computer. The Quarto document then must be rendered to
+local host rather than opening the static html file and 
+server must be set to shiny in the yaml. A static image of
+the shiny app are displayed in place of the abcdsShinyPlot.qmd file
+--->
+
+<!-- {{< include abcdsShinyPlot.qmd >}} -->
+
+## Interactive Data Exploration {.no-bg-white}
+
+<video data-autoplay controls="controls" width="900" height="500" name="Interactive Console">
+  <source src="https://bhelsel.github.io/presentationsR/inst/videos/InteractiveConsole.mp4">
+</video>
+
+
+## Longitudinal Modeling
+
+Dana's Slides
