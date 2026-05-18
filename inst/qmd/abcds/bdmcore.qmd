@@ -2,9 +2,11 @@
 title: Longitudinal Data Analysis, Biomarker Harmonization Methods, and Data Access in the ABC-DS Study
 author: Biostatistics and Data Management Core
 date: May 19, 2026
+date-format: long
 execute: 
   warning: false
   message: false
+  eval: true
 format:
   revealjs:
     slide-number: true
@@ -15,6 +17,51 @@ format:
       data-background-size: "cover"
 # server: shiny
 ---
+
+## Agenda
+
+- The ABC-DS BDM Core: Where We Started & Where We’re Going
+- Speaking the Same Language: U01/U19 Harmonization
+- Navigating LONI and Accessing the Data
+- What the BDM Core Can Do for You: Tools, Support, and Collaboration
+- An Introduction to Longitudinal Modeling
+
+```{r}
+#| include: true
+#| results: asis
+speakers <- paste(readLines("html/speaker.html"), collapse = "\n")
+
+set_speaker <- function(name) {
+  image <- name
+  affiliation <- switch(
+    name,
+    "howard" = "Columbia University",
+    "dana" = "Pittsburgh University",
+    "brian" = "University of Kansas Medical Center"
+  )
+  name = switch(
+    name,
+    "howard" = "Howard Andrews, PhD",
+    "dana" = "Dana Tudorascu, PhD",
+    "brian" = "Brian Helsel, PhD"
+  )
+  htmltools::HTML(
+    glue::glue(
+      speakers,
+      name = name,
+      image = image,
+      affiliation = affiliation,
+      .open = "{{",
+      .close = "}}"
+    )
+  )
+}
+```
+
+```{r} 
+#| results: asis
+set_speaker("howard")
+```
 
 ## Alzheimer's Biomarker Consortium - Down Syndrome
 
@@ -41,11 +88,67 @@ format:
 
 :::
 
+```{r} 
+#| results: asis
+set_speaker("howard")
+```
+
+## Origins of the ABC-DS Study
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+<b>ADDS: Alzheimer's Disease Down Syndrome</b> (U01AG051412)
+
+- New York, NY (Columbia University/New York State Institute for Basic Research in Developmental Disabilities);
+- Boston, MA (Massachusetts General Hospital, Harvard University);
+- Irvine, CA (University of California, Irvine)
+
+:::
+
+::: {.column width="50%"}
+
+<b>NiAD: Neurodegeneration in Aging Down Syndrome</b> (U01AG051406)
+
+- Pittsburgh, PA (University of Pittsburgh);
+- Madison, WI (University of Wisconsin);
+- St. Louis, MO (Washington University);
+- Cambridge, England (University of Cambridge)
+
+:::
+
+::::
+
+```{r} 
+#| results: asis
+set_speaker("howard")
+```
+
+
+## Scientific Goals
+
+- Overall goal is to understand the full AD patho-physiological spectrum (preclinical to dementia) of DS-AD
+- Determine primacy of genetic contributions to DS-AD pathobiology and phenotype
+- Determine if trajectories of DS-AD pathobiology fit existing conceptual frameworks for sporadic AD
+- Based on discovered pathobiology, we will identify possible treatment targets
+- Discover and establish multi-domain biomarkers that will be useful for next-generation clinical trials
+
+```{r} 
+#| results: asis
+set_speaker("howard")
+```
+
 ## Cores
 
 <img src="https://bhelsel.github.io/presentationsR/inst/images/abcdsCores.png" width="90%" height="auto"/>
 
-## Core Leads
+```{r} 
+#| results: asis
+set_speaker("howard")
+```
+
+## Biostatistics and Data Management Core Leads
  
 ::: {.columns}
 
@@ -75,58 +178,101 @@ Brian Helsel, PhD
 
 :::
 
-## Agenda
-
-- The ABC-DS BDM Core: Where We Started & Where We’re Going
-- Speaking the Same Language: U01/U19 Harmonization in Practice
-- Unlocking the Data: Navigating LONI with Confidence
-- What the BDM Core Can Do for You: Tools, Support, and Collaboration
-- From Data to Insight: A Practical Introduction to Longitudinal Modeling
-
-## Origins of the ABC-DS Study
-
-:::: {.columns}
-
-::: {.column width="50%"}
-
-<b>ADDS: Alzheimer's Disease Down Syndrome</b> (U01AG051412)
-
-- New York, NY (Columbia University/New York State Institute for Basic Research in Developmental Disabilities);
-- Boston, MA (Massachusetts General Hospital, Harvard University);
-- Irvine, CA (University of California, Irvine)
-
-:::
-
-::: {.column width="50%"}
-
-<b>NiAD: Neurodegeneration in Aging Down Syndrome</b> (U01AG051406)
-
-- Pittsburgh, PA (University of Pittsburgh);
-- Madison, WI (University of Wisconsin);
-- St. Louis, MO (Washington University);
-- Cambridge, England (University of Cambridge)
-
-:::
-
-::::
-
-## Data Harmonization 
-
-Howard's Slides
+```{r} 
+#| results: asis
+set_speaker("howard")
+```
 
 
+## Participants, Resources, Longitudinal Assessment {.no-bg-white}
 
-## ABC-DS Request Form
+```{r}
+#| echo: false
+#| results: asis
+# fmt: skip
+timepoints <- c("Baseline", "16 months", "32 months", "48 months", "64 months", "80 months", "96 months", "112 months")
 
+assessments <- list(
+  "Cognitive Battery" = rep("X", 8),
+  "Neurological Exam" = rep("X", 8),
+  "Informant Interviews" = rep("X", 8),
+  "Chart Reviews" = rep("X", 8),
+  "Blood Draw" = rep("X", 8),
+  "MRI" = rep("X", 8),
+  "Amyloid PET" = rep(c("X", ""), 4),
+  "Tau PET" = rep(c("X", ""), 4),
+  "FDG PET" = rep(c("", "X"), 4),
+  "CSF (optional)" = rep(c("X", ""), 4),
+  "Consensus" = rep("X", 8)
+)
+
+assessment_html <- paste0(readLines("html/assessments.html"), collapse = "\n")
+
+assessment_rows <- purrr::imap_chr(
+  assessments,
+  \(vals, nm) {
+    paste0(
+      "<tr>",
+      "<td>",
+      nm,
+      "</td>",
+      paste0("<td>", vals, "</td>", collapse = ""),
+      "</tr>"
+    )
+  }
+) |>
+  paste(collapse = "\n")
+
+cat(
+  glue::glue(
+    assessment_html,
+    timepoints = paste0("<th>", timepoints, "</th>", collapse = "\n"),
+    assessments = assessment_rows,
+    .open = "{{",
+    .close = "}}",
+  ),
+  sep = "\n"
+)
+```
+
+```{r} 
+#| results: asis
+set_speaker("howard")
+```
+
+## Main Data Repositories
+
+<ul class="arrow-list">
+<li class="arrow-right">NCRAD: Plasma, Serum</li>
+<li class="arrow-right">Washington University in St. Louis: CSF</li>
+<li class="arrow-right">University of North Texas Health Sciences: Proteomics</li>
+<li class="arrow-right">Georgetown University: Metabolomics</li>
+<li class="arrow-right">dbGaP, NIAGD: Genetics</li>
+<li class="arrow-right">Alzheimer's Therapeutic Research Institute (ATRI): Clinical Data</li>
+<li class="arrow-right">Laboratory of Neuro Imaging (LONI): Imaging</li>
+</ul>
+
+<div style="font-size: 20px; color: #898989;">
+  National Centralized Repository for Alzheimer's Disease and Related Dementias (NCRAD)<br>
+  database of Genotypes and Phenotypes (dbGaP)<br>
+  National Institute on Aging Genetics of Alzheimer's Disease (NIAGD)<br>
+</div>
+
+```{r} 
+#| results: asis
+set_speaker("howard")
+```
+
+## Requesting ABC-DS Data and Biospecimens
 
 ::: {.columns}
 
-::: {.column}
+::: {.column width="60%"}
 
 <p>Submit a data request via Qualtrics survey:</p>
 
 <ul class="arrow-list">
-<li class="check-mark">Title, Hypothesis, and Research Question</li>
+<li class="check-mark">Research Question and Hypothesis</li>
 <li class="check-mark">Brief Background and Rationale </li>
 <li class="check-mark">Predictors, Outcomes, & Covariates</li>
 <li class="check-mark">Analysis & Statsitical Plan</li>
@@ -135,14 +281,13 @@ Howard's Slides
 The ABC-DS publication committee meets monthly to evaluate the requests to
 ensure scientific rigor and non-overlapping interests.
 
-
 :::
 
-::: {.column}
+::: {.column width="40%"}
 
 <div class="custom-image">
   <a href="https://pitt.co1.qualtrics.com/jfe/form/SV_cu0pNCZZlrdSxUN" target="blank">
-    <img src="https://bhelsel.github.io/presentationsR/inst/images/abcdsRequestForm.png" width="80%" height="auto"/>
+    <img src="https://bhelsel.github.io/presentationsR/inst/images/abcdsRequestForm.png" width="100%" height="auto"/>
   </a>
 </div>
 
@@ -150,6 +295,29 @@ ensure scientific rigor and non-overlapping interests.
 :::
 
 :::
+
+```{r} 
+#| results: asis
+set_speaker("howard")
+```
+
+## Clinical Data Availability: "Freezes"
+
+<ul class="arrow-list">
+  <li class="arrow-right">Data are available to approved requestors via LONI</li>
+  <li class="arrow-right">Each freeze captures clinical evaluations not included in prior freezes</li>
+  <li class="arrow-right">Inclusion requires complete evaluation data and a consensus diagnosis</li>
+</ul>
+
+<div class="highlight-box" style="font-size: 36px;">
+  <p><strong>Freeze 5</strong> is currently available — Freeze 6 coming soon!</p>
+</div>
+
+
+```{r} 
+#| results: asis
+set_speaker("howard")
+```
 
 ## LONI Data Access {.no-bg}
 
@@ -171,9 +339,29 @@ ensure scientific rigor and non-overlapping interests.
 
 :::
 
-## ABC-DS Measures
+```{r} 
+#| results: asis
+set_speaker("howard")
+```
 
-<img src="https://bhelsel.github.io/presentationsR/inst/images/abcdsMeasures.png" width="100%" height="auto"/>
+## Exploring ABC-DS Clinical Data
+
+For ABC-DS Investigators and Staff...
+
+- BDM Core has prepared a file in which selected LONI tables are merged into a single data file
+  - Available in SAS, SPSS and Excel
+  - SAS and SPSS versions are self-documenting (variable and value labels for coded variables)
+  - Derived variables include BMI, incident dementia and MCI indicators
+- The merged file may be used to determine data availability, planning, and exploratory analysis
+
+
+*Before conducting analyses for use in publications or preparations, a formal data request must be submitted*
+
+
+```{r} 
+#| results: asis
+set_speaker("howard")
+```
 
 ## Study Data Files
 
@@ -283,6 +471,13 @@ study_file_table <-
 study_file_table
 ```
 
+
+```{r} 
+#| results: asis
+set_speaker("brian")
+```
+
+
 ## Consensus Transitions {.no-bg}
 
 <div class="custom-image">
@@ -350,11 +545,22 @@ alluvial_plot
 
 </div>
 
+```{r} 
+#| results: asis
+set_speaker("brian")
+```
+
+
 ## An R Package for ABC-DS {.no-bg}
 
 <div class="custom-image">
-  <img src="https://bhelsel.github.io/presentationsR/inst/images/repositories/abcds.png" width="100%" height="auto"/>
+  <img src="https://bhelsel.github.io/presentationsR/inst/images/repositories/abcds.png" width="80%" height="auto"/>
 </div>
+
+```{r} 
+#| results: asis
+set_speaker("brian")
+```
 
 ## Set Up Your Data Directory One Time
 
@@ -394,6 +600,11 @@ abcds::set_abcds_directory()
 #' ℹ Please restart R for the change to take effect.
 ```
 
+```{r} 
+#| results: asis
+set_speaker("brian")
+```
+
 ## Function Factories
 
 A function factory is a function that makes functions.
@@ -416,6 +627,11 @@ new_abcds_reader <- function(pattern, include_demographics = TRUE) {
 
 read_neuro_exam <- new_abcds_reader("Physical_and_Neurological")
 read_consensus <- new_abcds_reader("Consensus")
+```
+
+```{r} 
+#| results: asis
+set_speaker("brian")
 ```
 
 ## Data Processing with Function Factories
@@ -442,6 +658,11 @@ str(read_athropometrics(add_demographics = FALSE))
 #>  $ bmi           : num [1:1455] 25.2 24.6 23.9 26.5 25.6 ...
 ```
 
+```{r} 
+#| results: asis
+set_speaker("brian")
+```
+
 ## Loop through a data dictionary and apply labels
 
 ::: {.columns}
@@ -451,7 +672,6 @@ str(read_athropometrics(add_demographics = FALSE))
 
 ```{r}
 #| echo: true
-#| eval: true
 #| code-line-numbers: 1-4|9|11
 # for (i in names(data)) {
 #  attr(data[[i]], "label") <-
@@ -472,12 +692,16 @@ demoTbl <-
 
 ```{r}
 #| echo: false
-#| eval: true
 flextable::width(demoTbl, j = 1, width = 2.25)
 ```
 
 :::
 :::
+
+```{r} 
+#| results: asis
+set_speaker("brian")
+```
 
 ## Improving data quality and consistency
 
@@ -493,6 +717,11 @@ flextable::width(demoTbl, j = 1, width = 2.25)
 Metaprogramming in R with tidy evaluation can dynamically evaluate equations as expressions.
 
 :::
+
+```{r} 
+#| results: asis
+set_speaker("brian")
+```
 
 ## Retrieving and Evaluating the Equations
 
@@ -512,11 +741,9 @@ Equations <- c(
 ```{r}
 #| echo: true
 #| eval: false
-#| code-line-numbers: 1-2|4|6-19|8|9|10-18
+#| code-line-numbers: 1-2|5-17|6|7|9-15
 EquationVariables <- unlist(strsplit(Equations, "\\s* \\+ \\s*"))
 AllVariables <- unique(c(Variables, EquationVariables))
-
-df <- atriReporter::get_cognition(!!!AllVariables, task = "dsmse")
 
 purrr::map2(Variables, Equations, .f = function(.x, .y) {
   current_values <- data[[.x]]
@@ -534,6 +761,10 @@ purrr::map2(Variables, Equations, .f = function(.x, .y) {
 })
 ```
 
+```{r} 
+#| results: asis
+set_speaker("brian")
+```
 
 ## Complex Lookup Tables
 
@@ -597,6 +828,11 @@ str(kbit2_multiple)
 
 :::
 
+```{r} 
+#| results: asis
+set_speaker("brian")
+```
+
 ## Facilitating Data Exploration
 
 <div class="custom-image">
@@ -614,13 +850,165 @@ the shiny app are displayed in place of the abcdsShinyPlot.qmd file
 
 <!-- {{< include abcdsShinyPlot.qmd >}} -->
 
+```{r} 
+#| results: asis
+set_speaker("brian")
+```
+
 ## Interactive Data Exploration {.no-bg-white}
 
-<video data-autoplay controls="controls" width="900" height="500" name="Interactive Console">
-  <source src="https://bhelsel.github.io/presentationsR/inst/videos/InteractiveConsole.mp4">
-</video>
+
+::: {.columns}
+
+::: {.column width="40%"}
+
+<ul class="arrow-list">
+ <li class="check-mark">Launch interactive console</li>
+ <li class="check-mark">Generate summary statistics</li>
+ <li class="check-mark">Filter the data by gender</li>
+ <li class="check-mark">Print summary statistics of filtered data</li>
+</ul>
+
+:::
+
+::: {.column width="60%"}
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const vid = document.getElementById("interactive-console");
+  vid.playbackRate = 2; // 1.0 = normal
+});
+</script>
+
+<div style="float: right;">
+  <video id="interactive-console" data-autoplay controls="controls" width="100%" height="auto" name="Interactive Console">
+    <source src="https://bhelsel.github.io/presentationsR/inst/videos/InteractiveConsole.mp4">
+  </video>
+</div>
 
 
-## Longitudinal Modeling
+:::
 
-Dana's Slides
+:::
+
+<div class="highlight-box">
+  This could be programmed to return code like `dplyr::show_query` or intermediate processing results.
+</div>
+
+```{r} 
+#| results: asis
+set_speaker("brian")
+```
+
+## Longitudinal Modeling and Cohort Comparison
+
+<ul class="arrow-list">
+  <li class="arrow-right">Site differences</li>
+  <li class="arrow-right">Longitudinal Analysis</li>
+  <ul class="arrow-list">
+    <li class="check-mark">Covariate adjustment</li>
+    <li class="check-mark">Time unit</li>
+    <li class="check-mark">Group differences</li>
+    <li class="check-mark">Comparisons between our cohort and other cohorts</li>
+  </ul>
+  <li class="arrow-right">Data harmonization: Chen (Weiquan) Luo work</li>
+</ul>
+
+
+```{r} 
+#| results: asis
+set_speaker("dana")
+```
+
+## Longitudinal Analyses
+
+- Our data is not equally spaced because it is not collected at the same exact time.
+- Longitudinal analysis are generally focused on change /rates per time unit.
+- All longitudinal models should use the latency variable (time from baseline) from our database as the time variable.
+- All models should be controlled for site differences.
+- All models that are testing differences over time between groups, should test that by including an interaction effect **time X group** and should be tested in a nested fashion: 
+  - Model with interaction vs. model without interaction (via F-test).
+- In a longitudinal model (mixed effects model,) site can be added as a random effect since we are not interested in site differences, but we only want to control the variability that is due to sites.
+
+```{r} 
+#| results: asis
+set_speaker("dana")
+```
+
+## Comparisons Between Our ABC-DS Cohort and Other Cohorts
+
+- When comparing cohorts, we should fit a single model to all the data.
+- To test differences between cohorts an indicator variable should be included in the model that is indexing the cohort (A, B, etc.).
+- Work with your statisticians, have them check the models, analysis and inference. 
+
+<div class="custom-image">
+  <img src="https://bhelsel.github.io/presentationsR/inst/images/articles/tudorascu2019comparison.png" width="80%"/>
+</div>
+
+```{r} 
+#| results: asis
+set_speaker("dana")
+```
+
+## Data Harmonization
+
+- Plays a crucial role in our analyses.
+- Recently we investigated differences based on methods that have been accepted by the imaging community as standard methods for data harmonization across sites/centers such as: partial volume correction and smoothing and compared those with Combat. **We have found significant differences between these methods.**
+- Combat harmonization has also shown significant variability in effect sizes between amyloid positive and amyloid negative individuals.
+
+```{r} 
+#| results: asis
+set_speaker("dana")
+```
+
+## Data Harmonization
+
+
+::: {.columns}
+
+::: {.column}
+
+<div class="custom-image">
+  <img src="https://bhelsel.github.io/presentationsR/inst/images/articles/luo2025development.png" width="100%"/>
+</div>
+
+
+:::
+
+::: {.column}
+
+<div class="custom-image">
+  <img src="https://bhelsel.github.io/presentationsR/inst/images/articles/luo2026effect.png" width="91%"/>
+</div>
+
+:::
+
+:::
+
+```{r} 
+#| results: asis
+set_speaker("dana")
+```
+
+## Statistical Analysis: Conclusions
+
+<ul class="arrow-list">
+  <li class="check-mark">Use the appropriate time variable in longitudinal analyses.</li>
+  <li class="check-mark">Correct for site effects.</li>
+  <li class="check-mark">For cohorts comparisons use a single model.</li>
+  <li class="check-mark">Harmonization methods for imaging data should be considered.</li>
+</ul>
+
+```{r} 
+#| results: asis
+set_speaker("dana")
+```
+
+##
+
+```{r}
+#| results: asis
+questions <- paste0(readLines("html/questions.html"), collapse = "\n")
+
+htmltools::HTML(questions)
+```

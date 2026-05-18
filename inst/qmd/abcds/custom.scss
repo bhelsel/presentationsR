@@ -21,11 +21,12 @@ $code-bg: #f7f7f7;
 
 /*-- scss:rules --*/
 
-li, p {
+li,
+p {
   font-size: 0.75em;
 }
 
-#title-slide h1{
+#title-slide h1 {
   font-size: 0.85em;
 }
 
@@ -40,18 +41,18 @@ li, p {
   padding-top: 15px;
 }
 
-.slide-background-content{
-  background-image: url('https://github.com/bhelsel/quarto-abcds/raw/main/_extensions/abcds/logos/ABCDSContentSlide.jpg');
+.slide-background-content {
+  background-image: url("https://github.com/bhelsel/quarto-abcds/raw/main/_extensions/abcds/logos/ABCDSContentSlide.jpg");
   background-size: 100% 100% !important;
 }
 
-@media (max-width: 1080px){
-  .slide-background-content{
+@media (max-width: 1080px) {
+  .slide-background-content {
     background-size: cover !important;
   }
 }
 
-#core-leads img{
+#biostatistics-and-data-management-core-leads img {
   width: 220px;
   height: 220px;
   display: block;
@@ -62,11 +63,10 @@ li, p {
   margin: 0 auto;
 }
 
-#core-leads p{
+#biostatistics-and-data-management-core-leads p {
   text-align: center;
   margin: 10px auto;
 }
-
 
 ul.arrow-list {
   list-style: none;
@@ -117,23 +117,23 @@ ul.arrow-list li.check-mark::before {
 
 .reveal .slide-background.no-bg .slide-background-content {
   background-image: none !important;
-  background-color: #DDE6ED !important;
+  background-color: #dde6ed !important;
 }
 
 .reveal .slide-background.no-bg-white .slide-background-content {
   background-image: none !important;
-  background-color: #FFFFFF !important;
+  background-color: #ffffff !important;
 }
 
-#abc-ds-request-form{
+#abc-ds-request-form {
   font-size: 0.8em;
 }
 
 .custom-image {
   display: flex;
-  align-items: flex-start;  /* top alignment */
-  justify-content: center;  /* horizontal centering (optional) */
-  height: 100%;  /* ensures the container takes full height */
+  align-items: flex-start; /* top alignment */
+  justify-content: center; /* horizontal centering (optional) */
+  height: 100%; /* ensures the container takes full height */
 }
 
 .custom-image img {
@@ -178,16 +178,15 @@ ul.arrow-list li.check-mark::before {
   border-radius: 6px;
   padding: 1.2em;
   margin: 1em 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   font-size: 0.7em;
 }
-
 
 // Tables
 .reveal table {
   border-collapse: collapse;
   border-spacing: 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border-radius: 6px;
   overflow: hidden;
   border: 1px solid rgba(31, 71, 136, 0.15);
@@ -215,4 +214,177 @@ ul.arrow-list li.check-mark::before {
 
 .shiny-output-error-validation {
   font-size: 0.6em;
+}
+
+:root {
+  --brian-path: url("https://media.licdn.com/dms/image/v2/D4E03AQG31k6hp8Tu6g/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1649423725043?e=1779926400&v=beta&t=-QDDNdeTUcVjiG69WztnUrf7hZFifVj0cP0W58RcZy8");
+  --howard-path: url("https://www.publichealth.columbia.edu/sites/default/files/styles/cola_media_520/public/cups-profile/headshot/5247c0f0-e3a3-11ea-b94c-313f6b4d624c.jpg?itok=cKhIcKZd");
+  --dana-path: url("https://www.psychiatry.pitt.edu/sites/default/files/styles/faculty_headshot/public/2021-08/TudorascuDana.png?itok=p1xW_qOH");
+}
+
+.speaker-card {
+  position: absolute;
+  bottom: -20px;
+  right: -200px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.speaker-img {
+  width: 112px;
+  height: 112px;
+  flex-shrink: 0;
+  &--brian {
+    background-image: var(--brian-path);
+  }
+  &--howard {
+    background-image: var(--howard-path);
+  }
+  &--dana {
+    background-image: var(--dana-path);
+  }
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+  border-radius: 50%;
+  border: 3px solid #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.speaker-name {
+  font-size: 0.95rem;
+  line-height: 1.2;
+  color: black;
+  text-align: left;
+  strong {
+    display: block;
+    font-size: 0.95rem;
+  }
+}
+
+#participants-resources-longitudinal-assessment h2 {
+  font-size: 0.8em;
+}
+
+.assessment-table {
+  font-size: 0.75em;
+  th,
+  td {
+    text-align: center !important;
+    line-height: 1 !important;
+  }
+}
+
+#longitudinal-analyses {
+  font-size: 0.8em;
+}
+
+#comparisons-between-our-abc-ds-cohort-and-other-cohorts {
+  font-size: 0.8em;
+}
+
+#interactive-data-exploration li {
+  font-size: 18px;
+}
+
+.q-mark {
+  font-weight: 700;
+  color: #1f4788;
+  position: absolute;
+  line-height: 1;
+  user-select: none;
+}
+
+.q-mark--right {
+  font-size: 10rem;
+  opacity: 0.1;
+  top: 1rem;
+  right: 3rem;
+}
+
+.q-mark--left {
+  font-size: 10rem;
+  opacity: 0.07;
+  bottom: 8rem;
+  left: 2.5rem;
+}
+
+.accent-bar {
+  width: 48px;
+  height: 4px;
+  background: #2a7ae2;
+  border-radius: 2px;
+  margin: 0 auto 1.5rem;
+}
+
+.main-title {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: #1f4788;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.subtitle {
+  font-size: 24px;
+  color: #4a6285;
+  text-align: center;
+  margin: 0 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.speaker-row {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.speaker-pill {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.6);
+  border: 0.5px solid rgba(31, 71, 136, 0.2);
+  border-radius: 999px;
+  padding: 0.4rem 1rem 0.4rem 0.4rem;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #1f4788;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.speaker-info {
+  line-height: 0.75;
+  strong {
+    display: block;
+    font-size: 20px;
+    color: #1f4788;
+    font-weight: 600;
+  }
+
+  span {
+    font-size: 20px;
+    color: #4a6285;
+  }
 }
