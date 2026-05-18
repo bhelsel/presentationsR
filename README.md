@@ -1,7 +1,14 @@
 
 # presentationsR
 
-The goal of presentationsR is to provide an accessible version of wearable device presentations given by Dr. Brian Helsel.
+The goal of presentationsR is to provide an accessible versions of presentations
+given by Dr. Brian Helsel. Presentations in this repository can be downloaded by
+intalling the presentationsR package or viewed using the following links: 
+
+<a href="https://bhelsel.github.io/presentationsR/inst/qmd/abcds/bdmcore" target="_blank">Longitudinal Data Analysis, Biomarker Harmonization Methods, and Data Access in the ABC-DS Study</a>
+
+<a href="https://bhelsel.github.io/presentationsR/inst/qmd/wisconsin/wisconsin" target="_blank">Extending R Beyond Analysis
+Building Software to Support Brain Health and Down syndrome Research</a>
 
 <hr style="border: 1px solid;">
 
