@@ -170,7 +170,7 @@ Dana Tudorascu, PhD
 
 ::: {.column width="33%"}
 
-<img src="https://media.licdn.com/dms/image/v2/D4E03AQG31k6hp8Tu6g/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1649423725043?e=1779926400&v=beta&t=-QDDNdeTUcVjiG69WztnUrf7hZFifVj0cP0W58RcZy8"/>
+<img src="https://bhelsel.github.io/presentationsR/inst/images/helselProfile.jpg"/>
 
 Brian Helsel, PhD
 
