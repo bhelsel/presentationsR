@@ -1,0 +1,280 @@
+---
+title: "DuckDB in R for Physical Activity Data"
+subtitle: "Scalable Analysis Without Leaving the Tidyverse"
+author: 
+    "
+    Brian C. Helsel, PhD<br>
+    Assistant Professor<br>
+    KU Alzheimer's Disease Research Center
+    "
+format:
+  revealjs:
+    slide-number: true
+    theme: styles/custom.scss
+    embed-resources: true
+title-slide-attributes:
+  data-background-image: styles/slides/KUMCTitleSlide.jpg
+  data-background-size: "cover"
+date: last-modified
+date-format: long
+execute: 
+  eval: true
+  echo: true
+  warning: false
+  message: false
+---
+  
+## Who This Is For
+
+- Intermediate R users  
+- Comfortable with:
+  - `dplyr`
+  - grouped summaries
+  - joins
+- Working with:
+  - accelerometry
+  - wearables
+  - time-series PA data
+
+## Learning Objectives
+
+By the end of this tutorial, you will be able to:
+
+- Explain **what DuckDB is**
+- Know **when DuckDB is worth using**
+- Use DuckDB **from R without SQL**
+- Analyze **large PA time-series data**
+- Identify **real PA research use cases**
+
+## The Physical Activity Data Problem
+
+Typical PA datasets:
+
+- Minute- or second-level data
+- Thousands of participants
+- Multiple weeks or years
+- Repeated summaries
+- Multiple joins (PA + sleep + demographics)
+
+⚠️ Quickly exceeds memory limits in R
+
+## Common Pain Points
+
+- `Error: cannot allocate vector`
+- Long `group_by()` + `summarise()` times
+- Reading the *same* CSVs repeatedly
+- Huge intermediate objects
+
+## Enter DuckDB 🦆
+
+DuckDB is:
+
+- An **embedded analytical database**
+- Runs **inside R**
+- No server, no setup
+- Queries data **directly on disk**
+- Optimized for analytics
+
+## Mental Model
+
+> **DuckDB = dplyr + SQL engine + disk-backed data**
+
+Or for PA folks:
+
+> **Analyze accelerometer data without loading it all into RAM**
+
+## Setup
+
+```{r}
+#| eval: false
+
+install.packages(c("duckdb", "DBI", "dplyr", "lubridate"))
+
+```
+
+Create a DuckDB Database
+
+```{r}
+
+con <- DBI::dbConnect(
+  duckdb::duckdb(),
+  dbdir = "pa_study.duckdb"
+)
+```
+
+- File-backed
+- Reusable
+- Portable
+
+
+## Simulating PA Data
+
+- Minute-level accelerometer-style data:
+
+```{r}
+
+set.seed(123)
+pa_data <- expand.grid(
+  id = 1:500, # number of participants
+  day = 1:14, # number of days
+  minute = 1:1440 # minutes per day
+) |>
+  dplyr::mutate(
+    timestamp = as.POSIXct("2025-01-01") +
+      lubridate::days(day - 1) +
+      lubridate::minutes(minute - 1),
+    counts = abs(floor(rnorm(dplyr::n(), mean = 1800, sd = 500))),
+    mvpa = counts >= 1952
+  )
+
+```
+
+How Big Is This?
+```{r}
+
+nrow(pa_data)
+
+format(object.size(pa_data), units = "GB")
+
+```
+
+## Writing to DuckDB
+```{r}
+
+DBI::dbWriteTable(
+  con,
+  "pa_minute",
+  pa_data,
+  overwrite = TRUE
+)
+
+rm(pa_data)
+invisible(gc())
+
+```
+
+**Data now lives on disk**
+
+## Using DuckDB with dplyr
+
+DuckDB translates to SQL, optimizes query, and returns only requested rows.
+
+```{r}
+
+pa_tbl <- dplyr::tbl(con, "pa_minute")
+
+daily_mvpa <- pa_tbl |>
+  dplyr::group_by(id, day) |>
+  dplyr::summarise(
+    mvpa_minutes = sum(mvpa),
+    .groups = "drop"
+  )
+
+nrow(daily_mvpa)
+
+```
+
+No data pulled into R yet. The duckdb uses lazy evaluation, so
+we need to collect the results.
+
+```{r}
+
+daily_mvpa |>
+  dplyr::collect() |>
+  nrow()
+
+```
+
+## PA Guidelines Use Case
+
+Weekly MVPA ≥ 150 minutes
+
+```{r}
+
+start <- Sys.time()
+pa_tbl |>
+  dplyr::group_by(id, week = ceiling(day / 7)) |>
+  dplyr::summarise(weekly_mvpa = sum(mvpa), .groups = "drop") |>
+  dplyr::mutate(meets_150 = ifelse(weekly_mvpa >= 150, 1, 0)) |>
+  dplyr::group_by(week) |>
+  dplyr::summarise(pct_meeting = mean(meets_150) * 100) |>
+  dplyr::collect()
+end <- Sys.time()
+difftime(end, start, units = "secs")
+
+```
+
+## Without duckdb
+
+```{r}
+
+pa_data <- dplyr::collect(pa_tbl)
+
+start <- Sys.time()
+pa_data |>
+  dplyr::group_by(id, week = ceiling(day / 7)) |>
+  dplyr::summarise(weekly_mvpa = sum(mvpa), .groups = "drop") |>
+  dplyr::mutate(meets_150 = ifelse(weekly_mvpa >= 150, 1, 0)) |>
+  dplyr::group_by(week) |>
+  dplyr::summarise(pct_meeting = mean(meets_150) * 100)
+end <- Sys.time()
+difftime(end, start, units = "secs")
+
+
+```
+
+
+## Joining Large Tables
+
+```{r}
+
+# Simulate demographics
+demo <- tibble::tibble(
+  id = 1:500,
+  age = rnorm(500, 45, 10),
+  sex = sample(c("Male", "Female"), 500, replace = TRUE)
+)
+
+DBI::dbWriteTable(con, "demo", demo, overwrite = TRUE)
+
+```
+
+Join + Summarize
+
+```{r}
+
+pa_tbl |>
+  dplyr::group_by(id, week = ceiling(day / 7)) |>
+  dplyr::summarise(weekly_mvpa = sum(mvpa), .groups = "drop") |>
+  dplyr::mutate(meets_150 = ifelse(weekly_mvpa >= 150, 1, 0)) |>
+  dplyr::left_join(dplyr::tbl(con, "demo"), by = "id") |>
+  dplyr::group_by(sex) |>
+  dplyr::summarise(mean_mvpa = mean(weekly_mvpa), .groups = "drop") |>
+  dplyr::collect()
+
+```
+
+## When Should You Use DuckDB?
+
+✅ Data is 1–2 million rows
+
+✅ Repeated summaries
+
+✅ Large joins
+
+✅ Disk-based workflows
+
+DuckDB lets you scale analyses without changing how you write R.
+
+## Clean Up
+```{r}
+
+DBI::dbDisconnect(con, shutdown = TRUE)
+
+```
+
+## Possible Extensions
+
+- Read Parquet directly
+- GT3X → CSV → DuckDB
+- DuckDB + Shiny
